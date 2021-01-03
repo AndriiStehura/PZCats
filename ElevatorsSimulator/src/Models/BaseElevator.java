@@ -6,5 +6,5 @@ public abstract class BaseElevator {
     public abstract ElevatorState getState();
 
     public abstract void setState(ElevatorState state);
-    
+
 }
