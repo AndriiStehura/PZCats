@@ -1,6 +1,6 @@
 package Models;
 
-public enum PassangerState {
+public enum PassengerState {
     Spawned,
     Waiting,
     Moving,

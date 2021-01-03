@@ -1,11 +1,13 @@
 package Models;
 
 import Interfaces.BaseElevatorStrategy;
+import Interfaces.IElevator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Elevator {
+public class Elevator implements IElevator {
+    private double x, y;
     private int maxWeight;
     private int currentFloor;
     private BaseElevatorStrategy strategy;
@@ -35,12 +37,11 @@ public class Elevator {
 
     }
 
-    public void CloseDoors()
-    {
+    public void Called(Floor floor) {
 
     }
 
-    public void Called(BaseFloor floor)
+    public void CloseDoors()
     {
 
     }
