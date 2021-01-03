@@ -1,5 +1,9 @@
+import Logger.CustomLogger;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("main");
+        CustomLogger.log("temp");
+        CustomLogger.log("done1");
+        CustomLogger.log("done1");
     }
 }
