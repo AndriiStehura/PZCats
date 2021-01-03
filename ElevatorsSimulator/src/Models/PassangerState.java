@@ -4,6 +4,6 @@ public enum PassangerState {
     Spawned,
     Waiting,
     Moving,
-    Levaving,
+    Leaving,
     Left
 }
