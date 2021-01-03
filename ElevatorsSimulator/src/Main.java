@@ -1,9 +1,41 @@
 
+import Interfaces.ElevatorStrategy;
 import Logger.CustomLogger;
+
+import Logic.IgnoreStrategy;
+import Models.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public class Main {
+
+    private static void Initialize(){
+        WorldInformation worldInformation = WorldInformation.getInstance();
+        worldInformation.Initialize(5, 2, 50,
+                100, 100, 50);
+
+        List<Floor> floors = new ArrayList<>();
+        for (int i = 0; i < worldInformation.getFloorsNum(); ++i){
+            Floor f = new Floor();
+            f.setY(worldInformation.getWorldHeight() - (i + 1) * worldInformation.getFloorHeight()
+                    - i * worldInformation.get_yMargin());
+            floors.add(f);
+        }
+
+        List<Elevator> elevators = new ArrayList<>();
+        for (int i = 0; i < worldInformation.getElevatorsNum(); ++i){
+            Elevator e = new Elevator(200);
+            e.setX((worldInformation.get_xMargin() + worldInformation.getElevatorWidth()) * (i + 1));
+            e.setY(worldInformation.getWorldHeight() - worldInformation.getFloorHeight());
+            ElevatorStrategy strategy = new IgnoreStrategy(e, new ArrayDeque<>());
+            e.setStrategy(strategy);
+            elevators.add(e);
+        }
+        
+        Building b = new Building(elevators, floors);
+    }
 
     public static void main(String[] args) {
 

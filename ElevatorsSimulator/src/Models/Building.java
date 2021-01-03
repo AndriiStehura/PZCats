@@ -6,14 +6,14 @@ import Interfaces.IElevator;
 import java.util.List;
 
 public class Building implements IBuilding {
-    private List<IElevator> elevators;
+    private List<Elevator> elevators;
     private List<Floor> floors;
 
-    public List<IElevator> getElevators() {
+    public List<Elevator> getElevators() {
         return elevators;
     }
 
-    public void setElevators(List<IElevator> elevators) {
+    public void setElevators(List<Elevator> elevators) {
         this.elevators = elevators;
     }
 
@@ -27,9 +27,14 @@ public class Building implements IBuilding {
 
     @Override
     public void NotifyElevators(Floor floor) {
-        for (IElevator elevator:
+        for (Elevator elevator:
              elevators) {
             elevator.Called(floor);
         }
+    }
+
+    public Building(List<Elevator> elevators, List<Floor> floors){
+        this.elevators = elevators;
+        this.floors = floors;
     }
 }

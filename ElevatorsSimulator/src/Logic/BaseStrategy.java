@@ -12,4 +12,6 @@ public abstract class BaseStrategy {
         this.elevator = elevator;
         this.floorQueue = floorQueue;
     }
+
+    //TODO: deliver queue
 }

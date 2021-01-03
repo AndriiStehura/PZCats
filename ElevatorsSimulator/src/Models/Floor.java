@@ -3,10 +3,11 @@ package Models;
 import java.util.List;
 
 public class Floor {
-    public List<Passenger> passengerList;
-    public double elevatorPoints;
+    private List<Passenger> passengerList;
+    private double elevatorPoints;
     //public Building buildingReference;
-    public double floorHeight;
+    private double floorHeight;
+    private double yCoordinate;
 
     public List<Passenger> getPassengerList() {
         return passengerList;
@@ -27,8 +28,11 @@ public class Floor {
     public void setHeight(double height){ floorHeight = height;}
     public double getHeight(){ return floorHeight;}
 
-    public Floor(List<Passenger> passengerList, double elevatorPoints) {
-        this.passengerList = passengerList;
-        this.elevatorPoints = elevatorPoints;
+    public double getY() {
+        return yCoordinate;
+    }
+
+    public void setY(double yCoordinate) {
+        this.yCoordinate = yCoordinate;
     }
 }

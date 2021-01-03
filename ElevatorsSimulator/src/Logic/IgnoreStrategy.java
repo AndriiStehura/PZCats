@@ -41,6 +41,8 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
             elevator.Stop();
             elevator.OpenDoors();
             elevator.CloseDoors();
+
+            //deliver
         }
     }
 }
