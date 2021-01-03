@@ -4,7 +4,7 @@ public class Passenger {
     public int weight;
     public int sourceFloor;
     public int destinationFloor;
-    public PassangerState state;
+    public PassengerState state;
     //public Point point;
 
     public void setWeight(int weight) {
@@ -19,7 +19,7 @@ public class Passenger {
         this.destinationFloor = destinationFloor;
     }
 
-    public void setState(PassangerState state) {
+    public void setState(PassengerState state) {
         this.state = state;
     }
 
@@ -35,11 +35,11 @@ public class Passenger {
         return destinationFloor;
     }
 
-    public PassangerState getState() {
+    public PassengerState getState() {
         return state;
     }
 
-    public Passenger(int weight, int sourceFloor, int destinationFloor, PassangerState state) {
+    public Passenger(int weight, int sourceFloor, int destinationFloor, PassengerState state) {
         this.weight = weight;
         this.sourceFloor = sourceFloor;
         this.destinationFloor = destinationFloor;
