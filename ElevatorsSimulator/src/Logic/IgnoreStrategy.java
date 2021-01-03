@@ -9,7 +9,7 @@ import Models.Floor;
 import java.util.Queue;
 
 public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
-    public IgnoreStrategy(BaseElevator elevator, Queue<BaseFloor> floorQueue) {
+    public IgnoreStrategy(BaseElevator elevator, Queue<Floor> floorQueue) {
         super(elevator, floorQueue);
     }
 
@@ -17,11 +17,13 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
     public void Move() {
         //may be changed later
         while (true) {
-            while (elevator.getState() != ElevatorState.Called) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if(floorQueue.isEmpty()) {
+                while (elevator.getState() != ElevatorState.Called) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -36,7 +38,9 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                 }
             }
 
-            elevator.setState(ElevatorState.Opened);
+            elevator.Stop();
+            elevator.OpenDoors();
+            elevator.CloseDoors();
         }
     }
 }

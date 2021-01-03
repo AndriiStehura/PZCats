@@ -6,5 +6,7 @@ public abstract class BaseElevator {
     public abstract ElevatorState getState();
 
     public abstract void setState(ElevatorState state);
-
+    public abstract void Stop();
+    public abstract void OpenDoors();
+    public abstract void CloseDoors();
 }
