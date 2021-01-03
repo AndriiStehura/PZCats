@@ -10,8 +10,11 @@ public class PassengerFactory {
     private int maxCountOfFloors;
     public List<Passenger> passengerList;
 
-    public Passenger getPassenger(int _maxCountOfFloors){
+    public PassengerFactory(int _maxCountOfFloors){
         maxCountOfFloors = _maxCountOfFloors;
+    }
+
+    public Passenger getPassenger(){
         if(passengerList == null){
             passengerList = new ArrayList<>();
             return createNewPerson();
@@ -20,15 +23,9 @@ public class PassengerFactory {
         }
     }
 
-    private Passenger createNewPerson() {
-        var createdPassenger = createRandomPassenger();
-        passengerList.add(createdPassenger);
-        return  createdPassenger;
-    }
-
-
     private Passenger getExistingOrNewPerson() {
-        Passenger passengerToReturn = passengerList.stream()
+        Passenger passengerToReturn = passengerList
+                .stream()
                 .filter(e -> e.state == PassengerState.Left)
                 .findFirst()
                 .orElse(null);
@@ -40,25 +37,45 @@ public class PassengerFactory {
         }
     }
 
-
-    private Passenger updatePerson(Passenger passengerToReturn) {
-        passengerToReturn.state = PassengerState.Spawned;
-        return  passengerToReturn;
+    private Passenger createNewPerson() {
+        var createdPassenger = createRandomPassenger();
+        passengerList.add(createdPassenger);
+        return  createdPassenger;
     }
-
 
     private Passenger createRandomPassenger(){
         int weight = getRandomInteger(minWeight, maxWeight);
-        int sourceFloor = getRandomInteger(0, maxCountOfFloors);
-        int destinationFloor = getRandomInteger(0, maxCountOfFloors);
-        //TODO: Check if source != destination
 
-        var createdPassenger = new Passenger(weight, sourceFloor, destinationFloor, PassengerState.Spawned);
+        var createdPassenger = new Passenger(weight, 0, 0, PassengerState.Spawned);
+        setFloors(createdPassenger);
+
         return createdPassenger;
+    }
+
+    private Passenger updatePerson(Passenger passengerToReturn) {
+        passengerToReturn.state = PassengerState.Spawned;
+
+        setFloors(passengerToReturn);
+
+        return  passengerToReturn;
     }
 
     private int getRandomInteger(int min, int max) {
         Random rand = new Random();
         return rand.nextInt(max) + min;
     }
+
+    private void setFloors(Passenger passenger) {
+        int sourceFloor = getRandomInteger(0, maxCountOfFloors);
+        int destinationFloor = getRandomInteger(0, maxCountOfFloors);
+
+        while(sourceFloor == destinationFloor){
+            sourceFloor = getRandomInteger(0, maxCountOfFloors);
+            destinationFloor = getRandomInteger(0, maxCountOfFloors);
+        }
+
+        passenger.sourceFloor = sourceFloor;
+        passenger.destinationFloor = destinationFloor;
+    }
+
 }
