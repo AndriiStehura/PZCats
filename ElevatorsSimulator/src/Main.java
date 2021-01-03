@@ -1,8 +1,15 @@
+
+import Logger.CustomLogger;
 import javax.swing.*;
 import java.awt.*;
 
 public class Main {
+
     public static void main(String[] args) {
+
+        /*CustomLogger.log("temp");
+        CustomLogger.log("done1");
+        CustomLogger.log("done1");*/
         JFrame startFrame = new JFrame("Launch Elevator Simulator");
 
         JLabel title;
