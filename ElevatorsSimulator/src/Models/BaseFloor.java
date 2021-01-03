@@ -1,4 +1,4 @@
 package Models;
 
-public class BaseFloor {
+public abstract class BaseFloor {
 }
