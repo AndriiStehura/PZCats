@@ -1,5 +1,5 @@
 package Models;
 
 public enum ElevatorState {
-    Waiting, Called, Moving, Opened
+    Waiting, Called, Moving, Stopped
 }

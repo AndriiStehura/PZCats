@@ -1,5 +1,6 @@
 package Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Floor {
@@ -50,5 +51,37 @@ public class Floor {
         }
 
         return pos;
+    }
+
+    public void ElevatorArrived(Elevator elevator){
+        int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
+        for (int i = 0; i < elevator.getPassengers().size(); ++i){
+            Passenger p = elevator.getPassengers().get(i);
+            if(p.getDestinationFloor() == floorIndex){
+                p.setState(PassengerState.Leaving);
+                elevator.getPassengers().remove(p);
+                --i;
+            }
+        }
+
+        for (int i = 0; i < passengerList.size(); ++i) {
+            Passenger p = passengerList.get(i);
+            if(elevator.canEnter(p.getWeight())){
+                p.setState(PassengerState.Moving);
+                elevator.getPassengers().add(p);
+                passengerList.remove(p);
+                --i;
+            }
+        }
+        RearrangePassengers();
+    }
+
+    public void RearrangePassengers(){
+        List<Passenger> backUp = new ArrayList<>(passengerList);
+        passengerList.clear();
+        for (var p: backUp) {
+            p.getStrategy().Move(getNextPassengerPosition());
+            passengerList.add(p);
+        }
     }
 }

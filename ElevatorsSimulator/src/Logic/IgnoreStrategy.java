@@ -1,15 +1,12 @@
 package Logic;
 
 import Interfaces.ElevatorStrategy;
-import Models.BaseElevator;
-import Models.BaseFloor;
-import Models.ElevatorState;
-import Models.Floor;
+import Models.*;
 
 import java.util.Queue;
 
 public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
-    public IgnoreStrategy(BaseElevator elevator, Queue<Floor> floorQueue) {
+    public IgnoreStrategy(Elevator elevator, Queue<Floor> floorQueue) {
         super(elevator, floorQueue);
     }
 
@@ -38,6 +35,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                 }
             }
 
+            elevator.setCurrentFloor(firstCalledFloor);
             elevator.Stop();
             elevator.OpenDoors();
             elevator.CloseDoors();

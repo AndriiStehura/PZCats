@@ -11,12 +11,12 @@ public class PassengerStrategy {
         this.passenger = passenger;
     }
 
-    public void Move(){
+    public void Move(double dist){
         Building building = WorldInformation.getInstance().getBuilding();
-        double destX = building.getFloors().get(passenger.getSourceFloor())
-                .getNextPassengerPosition();
+        /*double distX = building.getFloors().get(passenger.getSourceFloor())
+                .getNextPassengerPosition();*/
 
-        while (Math.abs(passenger.getX() - destX) > 0.001){
+        while (Math.abs(passenger.getX() - dist) > 0.001){
             passenger.setX(passenger.getX() - 0.01);
             try {
                 Thread.sleep(100);

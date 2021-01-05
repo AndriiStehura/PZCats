@@ -11,11 +11,19 @@ import java.util.Queue;
 public class Elevator extends BaseElevator {
     private double x, y;
     private int maxWeight;
-    private int currentFloor;
+    private Floor currentFloor;
     private ElevatorStrategy strategy;
     private List<Passenger> passengers;
     private ElevatorState state;
     private Queue<Floor> floorQueue;
+
+    public Floor getCurrentFloor() {
+        return currentFloor;
+    }
+
+    public void setCurrentFloor(Floor currentFloor) {
+        this.currentFloor = currentFloor;
+    }
 
     public List<Passenger> getPassengers() {
         return passengers;
@@ -27,7 +35,7 @@ public class Elevator extends BaseElevator {
     public Elevator(int maxWeight)
     {
         this.maxWeight = maxWeight;
-        currentFloor = 1;
+        currentFloor = WorldInformation.getInstance().getBuilding().getFloors().get(0);
         passengers = new ArrayList<>();
     }
 
@@ -63,12 +71,13 @@ public class Elevator extends BaseElevator {
 
     public void Stop()
     {
+        OpenDoors();
 
     }
 
     public void OpenDoors()
     {
-
+        state = ElevatorState.Stopped;
     }
 
     public void Called(Floor floor) {
@@ -77,7 +86,7 @@ public class Elevator extends BaseElevator {
 
     public void CloseDoors()
     {
-
+        state = ElevatorState.Moving;
     }
 
     @Override
@@ -88,5 +97,14 @@ public class Elevator extends BaseElevator {
     @Override
     public ElevatorStrategy getStrategy() {
         return strategy;
+    }
+
+    public boolean canEnter(int weight){
+        int passengersWeight = passengers
+                .stream()
+                .mapToInt(x -> x.getWeight())
+                .sum();
+
+        return  passengersWeight + weight <= maxWeight;
     }
 }
