@@ -1,5 +1,7 @@
 package Models;
 
+import Logic.PassengerStrategy;
+
 public class Passenger {
     private int weight;
     private int sourceFloor;
@@ -7,6 +9,15 @@ public class Passenger {
     private PassengerState state;
     private double x;
     private double y;
+    private PassengerStrategy strategy;
+
+    public PassengerStrategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(PassengerStrategy strategy) {
+        this.strategy = strategy;
+    }
 
     public double getX() {
         return x;

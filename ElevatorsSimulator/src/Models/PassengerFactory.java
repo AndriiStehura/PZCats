@@ -1,5 +1,7 @@
 package Models;
 
+import Logic.PassengerStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,7 +28,7 @@ public class PassengerFactory {
     private Passenger getExistingOrNewPerson() {
         Passenger passengerToReturn = passengerList
                 .stream()
-                .filter(e -> e.state == PassengerState.Left)
+                .filter(e -> e.getState() == PassengerState.Left)
                 .findFirst()
                 .orElse(null);
 
@@ -39,6 +41,7 @@ public class PassengerFactory {
 
     private Passenger createNewPerson() {
         var createdPassenger = createRandomPassenger();
+        createdPassenger.setStrategy(new PassengerStrategy(createdPassenger));
         passengerList.add(createdPassenger);
         return  createdPassenger;
     }
@@ -53,7 +56,7 @@ public class PassengerFactory {
     }
 
     private Passenger updatePerson(Passenger passengerToReturn) {
-        passengerToReturn.state = PassengerState.Spawned;
+        passengerToReturn.setState(PassengerState.Spawned);
 
         setFloors(passengerToReturn);
 
@@ -74,8 +77,8 @@ public class PassengerFactory {
             destinationFloor = getRandomInteger(0, maxCountOfFloors);
         }
 
-        passenger.sourceFloor = sourceFloor;
-        passenger.destinationFloor = destinationFloor;
+        passenger.setSourceFloor(sourceFloor);
+        passenger.setDestinationFloor(destinationFloor);
     }
 
 }
