@@ -17,7 +17,7 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
     @Override
     public void Move() {
         //may be changed later
-        while (true) {
+
             if(floorQueue.isEmpty()) {
                 while (elevator.getState() != ElevatorState.Called) {
                     try {
@@ -46,6 +46,5 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
                     elevator.CloseDoors();
                 }
             }
-        }
     }
 }

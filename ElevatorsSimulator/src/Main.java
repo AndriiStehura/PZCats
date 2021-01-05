@@ -34,11 +34,15 @@ public class Main {
             elevators.add(e);
         }
         
-        Building b = new Building(elevators, floors);
+        Building building = new Building(elevators, floors);
+        worldInformation.setBuilding(building);
     }
 
     public static void main(String[] args) {
 
+    }
+    
+    private void InterfaceInitialization(){
         /*CustomLogger.log("temp");
         CustomLogger.log("done1");
         CustomLogger.log("done1");*/

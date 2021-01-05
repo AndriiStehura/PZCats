@@ -35,4 +35,20 @@ public class Floor {
     public void setY(double yCoordinate) {
         this.yCoordinate = yCoordinate;
     }
+
+    public double getNextPassengerPosition(){
+        double pos;
+        WorldInformation wi = WorldInformation.getInstance();
+        double leftOffset = wi.get_xMargin() + wi.getElevatorWidth();
+        leftOffset *= wi.getElevatorsNum();
+        if(passengerList.isEmpty()){
+            pos = leftOffset + wi.getPassengerMargin();
+        }
+        else {
+            pos = passengerList.get(passengerList.size() - 1).getX()
+                    + wi.getPassengerMargin();
+        }
+
+        return pos;
+    }
 }

@@ -8,6 +8,33 @@ public class WorldInformation {
     private int yMargin;
     private double floorHeight;
     private double elevatorWidth;
+    private Building building;
+    private double passengerWidth;
+    private double passengerMargin;
+
+    public double getPassengerMargin() {
+        return passengerMargin;
+    }
+
+    public void setPassengerMargin(double passengerMargin) {
+        this.passengerMargin = passengerMargin;
+    }
+
+    public double getPassengerWidth() {
+        return passengerWidth;
+    }
+
+    public void setPassengerWidth(double passengerWidth) {
+        this.passengerWidth = passengerWidth;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
 
     public double getWorldWidth(){
         return (xMargin + elevatorWidth) * elevatorsNum + xMargin * 3;

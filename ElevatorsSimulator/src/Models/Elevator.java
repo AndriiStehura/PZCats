@@ -6,6 +6,7 @@ import Interfaces.IElevator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class Elevator extends BaseElevator {
     private double x, y;
@@ -14,6 +15,7 @@ public class Elevator extends BaseElevator {
     private ElevatorStrategy strategy;
     private List<Passenger> passengers;
     private ElevatorState state;
+    private Queue<Floor> floorQueue;
 
     public List<Passenger> getPassengers() {
         return passengers;
@@ -70,7 +72,7 @@ public class Elevator extends BaseElevator {
     }
 
     public void Called(Floor floor) {
-        //thread run strategy move || add to queue
+        floorQueue.add(floor);
     }
 
     public void CloseDoors()

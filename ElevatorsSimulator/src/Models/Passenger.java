@@ -1,11 +1,28 @@
 package Models;
 
 public class Passenger {
-    public int weight;
-    public int sourceFloor;
-    public int destinationFloor;
-    public PassengerState state;
-    //public Point point;
+    private int weight;
+    private int sourceFloor;
+    private int destinationFloor;
+    private PassengerState state;
+    private double x;
+    private double y;
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
 
     public void setWeight(int weight) {
         this.weight = weight;
