@@ -1,6 +1,9 @@
 package Models;
 
-public class WorldInformation {
+import javax.swing.*;
+import java.awt.*;
+
+public class WorldInformation extends JPanel {
     private static WorldInformation instance;
     private int floorsNum;
     private int elevatorsNum;
@@ -108,5 +111,34 @@ public class WorldInformation {
 
     public void setElevatorWidth(double elevatorWidth) {
         this.elevatorWidth = elevatorWidth;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        this.setBackground(Color.WHITE);
+
+//        for (Floor floor : floors)
+//        {
+//            floor.draw(g);
+//        }
+        for (Elevator elevator:
+                building.getElevators()) {
+            drawElevators(elevator, g);
+        }
+    }
+
+    public void drawElevators(Elevator elevator, Graphics g)
+    {
+        g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth, (int)floorHeight);
+        g.setColor(Color.WHITE);
+        g.fillRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth/2, (int)floorHeight);
+        g.fillRect((int)elevator.getX() + (int)elevatorWidth - (int)elevatorWidth/2, (int)elevator.getY(),
+                (int)elevatorWidth/2, (int)floorHeight);
+        g.setColor(Color.BLACK);
+        g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth/2, (int)floorHeight);
+        g.drawRect((int)elevator.getX() + (int)elevatorWidth - (int)elevatorWidth/2, (int)elevator.getY(),
+                (int)elevatorWidth/2, (int)floorHeight);
     }
 }

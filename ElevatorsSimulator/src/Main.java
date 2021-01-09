@@ -42,16 +42,29 @@ public class Main {
         worldInformation.setBuilding(building);
 
         JFrame startFrame = new JFrame("Launch Elevator Simulator");
+
+        worldInformation.setBounds(0, 0 , (int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight());
+        JPanel panel = new JPanel(null);
+        panel.setPreferredSize(new Dimension((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight()));
+        panel.add(worldInformation);
+
+
+
         startFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         startFrame.setAlwaysOnTop(true);
         startFrame.setResizable(false);
         startFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight());
+        startFrame.add(panel);
         startFrame.setVisible(true);
     }
 
     public static void main(String[] args) {
         InterfaceInitialization();
         WorldInformation.getInstance().getBuilding().runAllThreads();
+    }
+
+    private static void AddElevators(JFrame frame, WorldInformation information){
+
     }
     
     private static void InterfaceInitialization(){
@@ -124,6 +137,7 @@ public class Main {
         jPanel = new JPanel(null);
         jPanel.setPreferredSize(new Dimension(750, 240));
         jPanel.add(createWorld);
+
 
 
         startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
