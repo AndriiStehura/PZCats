@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
 
@@ -29,7 +30,7 @@ public class Main {
             Elevator e = new Elevator(200);
             e.setX((worldInformation.get_xMargin() + worldInformation.getElevatorWidth()) * (i + 1));
             e.setY(worldInformation.getWorldHeight() - worldInformation.getFloorHeight());
-            ElevatorStrategy strategy = new IgnoreStrategy(e, new ArrayDeque<>());
+            ElevatorStrategy strategy = new IgnoreStrategy(e, new LinkedBlockingQueue<>());
             e.setStrategy(strategy);
             elevators.add(e);
         }

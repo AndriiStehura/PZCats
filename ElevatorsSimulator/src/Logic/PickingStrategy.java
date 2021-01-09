@@ -4,10 +4,11 @@ import Interfaces.ElevatorStrategy;
 import Models.*;
 
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 import java.util.function.Predicate;
 
 public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
-    public PickingStrategy(Elevator elevator, Queue<Passenger> floorQueue) {
+    public PickingStrategy(Elevator elevator, BlockingQueue<Passenger> floorQueue) {
         super(elevator, floorQueue);
     }
 

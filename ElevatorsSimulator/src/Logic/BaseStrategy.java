@@ -3,12 +3,13 @@ package Logic;
 import Models.*;
 
 import java.util.*;
+import java.util.concurrent.BlockingQueue;
 
 public abstract class BaseStrategy {
     protected Elevator elevator;
-    protected Queue<Passenger> floorQueue;
+    protected BlockingQueue<Passenger> floorQueue;
 
-    public BaseStrategy(Elevator elevator, Queue<Passenger> floorQueue){
+    public BaseStrategy(Elevator elevator, BlockingQueue<Passenger> floorQueue){
         this.elevator = elevator;
         this.floorQueue = floorQueue;
     }

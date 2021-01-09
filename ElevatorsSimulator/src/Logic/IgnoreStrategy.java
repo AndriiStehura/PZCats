@@ -4,9 +4,10 @@ import Interfaces.ElevatorStrategy;
 import Models.*;
 
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 
 public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
-    public IgnoreStrategy(Elevator elevator, Queue<Passenger> floorQueue) {
+    public IgnoreStrategy(Elevator elevator, BlockingQueue<Passenger> floorQueue) {
         super(elevator, floorQueue);
     }
 
