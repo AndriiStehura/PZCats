@@ -17,14 +17,9 @@ public class PassengerStrategy {
         System.out.println("Passenger started going");
         while (Math.abs(passenger.getX() - dest) > 0.001){
                 if(passenger.getX() > dest)
-                    passenger.setX(passenger.getX() - 0.01);
+                    passenger.setX(passenger.getX() - 0.00001);
                 else
-                    passenger.setX(passenger.getX() + 0.01);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                    passenger.setX(passenger.getX() + 0.00001);
             }
 
         System.out.println("Passenger stopped");
