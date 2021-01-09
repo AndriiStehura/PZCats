@@ -31,10 +31,10 @@ public class Elevator extends BaseElevator implements Runnable {
         this.passengers = passengers;
     }
 
-    public Elevator(int maxWeight)
+    public Elevator(int maxWeight, Floor initialFloor)
     {
         this.maxWeight = maxWeight;
-        currentFloor = WorldInformation.getInstance().getBuilding().getFloors().get(0);
+        currentFloor = initialFloor;
         passengers = new ArrayList<>();
     }
 
