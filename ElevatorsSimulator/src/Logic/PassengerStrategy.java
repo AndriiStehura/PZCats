@@ -16,6 +16,7 @@ public class PassengerStrategy {
         /*double distX = building.getFloors().get(passenger.getSourceFloor())
                 .getNextPassengerPosition();*/
 
+        System.out.println("Passenger started going");
         while (Math.abs(passenger.getX() - dist) > 0.001){
             passenger.setX(passenger.getX() - 0.01);
             try {
@@ -25,6 +26,7 @@ public class PassengerStrategy {
             }
         }
 
+        System.out.println("Passenger stopped");
         building.updateQueue(passenger);
     }
 }

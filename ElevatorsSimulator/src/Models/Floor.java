@@ -10,6 +10,10 @@ public class Floor {
     private double floorHeight;
     private double yCoordinate;
 
+    public Floor(){
+        passengerList = new ArrayList<>();
+    }
+
     public List<Passenger> getPassengerList() {
         return passengerList;
     }

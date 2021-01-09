@@ -47,8 +47,32 @@ public class Building implements IBuilding {
     }
 
     public void runAllThreads(){
-        for (var elevator:
-             elevators) {
+        Thread factoryThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PassengerFactory factory = new PassengerFactory(floors.size());
+                while (true){
+                    Passenger passenger = factory.getPassenger();
+                    Floor passangersFloor = floors.get(passenger.getSourceFloor());
+                    passangersFloor.getPassengerList().add(passenger);
+                    Thread passangerThread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            passenger.getStrategy().Move(passangersFloor.getNextPassengerPosition());
+                        }
+                    });
+                    passangerThread.start();
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        factoryThread.start();
+        for (var elevator: elevators) {
             Thread thread = new Thread(elevator);
             thread.start();
         }
