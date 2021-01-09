@@ -4,10 +4,18 @@ import Interfaces.IBuilding;
 import Interfaces.IElevator;
 
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 public class Building implements IBuilding {
     private List<Elevator> elevators;
     private List<Floor> floors;
+    private BlockingQueue<Passenger> passengersQueue;
+
+    public Building(List<Elevator> elevators, List<Floor> floors, BlockingQueue<Passenger> passengersQueue){
+        this.elevators = elevators;
+        this.floors = floors;
+        this.passengersQueue = passengersQueue;
+    }
 
     public List<Elevator> getElevators() {
         return elevators;
@@ -26,14 +34,15 @@ public class Building implements IBuilding {
     }
 
     @Override
-    public void NotifyElevators(Passenger passenger) {
-        for (Elevator elevator: elevators) {
-            elevator.Called(passenger);
-        }
+    public void updateQueue(Passenger passenger) {
+        passengersQueue.add(passenger);
     }
 
-    public Building(List<Elevator> elevators, List<Floor> floors){
-        this.elevators = elevators;
-        this.floors = floors;
+    public BlockingQueue<Passenger> getPassengersQueue() {
+        return passengersQueue;
+    }
+
+    public void setPassengersQueue(BlockingQueue<Passenger> passengersQueue) {
+        this.passengersQueue = passengersQueue;
     }
 }

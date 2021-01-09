@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
@@ -26,21 +27,22 @@ public class Main {
         }
 
         List<Elevator> elevators = new ArrayList<>();
+        BlockingQueue<Passenger> passengersQueue = new LinkedBlockingQueue<>();
         for (int i = 0; i < worldInformation.getElevatorsNum(); ++i){
             Elevator e = new Elevator(200);
             e.setX((worldInformation.get_xMargin() + worldInformation.getElevatorWidth()) * (i + 1));
             e.setY(worldInformation.getWorldHeight() - worldInformation.getFloorHeight());
-            ElevatorStrategy strategy = new IgnoreStrategy(e, new LinkedBlockingQueue<>());
+            ElevatorStrategy strategy = new IgnoreStrategy(e, passengersQueue);
             e.setStrategy(strategy);
             elevators.add(e);
         }
         
-        Building building = new Building(elevators, floors);
+        Building building = new Building(elevators, floors, passengersQueue);
         worldInformation.setBuilding(building);
     }
 
     public static void main(String[] args) {
-
+        
     }
     
     private void InterfaceInitialization(){
