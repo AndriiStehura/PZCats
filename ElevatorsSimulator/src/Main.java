@@ -6,6 +6,7 @@ import Logic.IgnoreStrategy;
 import Models.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -13,10 +14,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
 
-    private static void Initialize(){
+    private static void Initialize(int elevatorCount, int floorCount, String selectedStrategy){
         WorldInformation worldInformation = WorldInformation.getInstance();
-        worldInformation.Initialize(5, 2, 50,
-                100, 100, 50);
+        worldInformation.Initialize(floorCount, elevatorCount, 200,
+                50, 100, 50);
 
         List<Floor> floors = new ArrayList<>();
         for (int i = 0; i < worldInformation.getFloorsNum(); ++i){
@@ -36,17 +37,24 @@ public class Main {
             e.setStrategy(strategy);
             elevators.add(e);
         }
-        
+
         Building building = new Building(elevators, floors, passengersQueue);
         worldInformation.setBuilding(building);
+
+        JFrame startFrame = new JFrame("Launch Elevator Simulator");
+        startFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        startFrame.setAlwaysOnTop(true);
+        startFrame.setResizable(false);
+        startFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight());
+        startFrame.setVisible(true);
     }
 
     public static void main(String[] args) {
-        Initialize();
+        InterfaceInitialization();
         WorldInformation.getInstance().getBuilding().runAllThreads();
     }
-    
-    private void InterfaceInitialization(){
+
+    private static void InterfaceInitialization(){
         /*CustomLogger.log("temp");
         CustomLogger.log("done1");
         CustomLogger.log("done1");*/
@@ -91,7 +99,7 @@ public class Main {
         floors.setLocation(100, 150);
         startFrame.add(floors);
 
-        SpinnerModel smFloors = new SpinnerNumberModel(0, 0, 10, 1);
+        SpinnerModel smFloors = new SpinnerNumberModel(0, 0, 5, 1);
         JSpinner floorsCount = new JSpinner(smFloors);
         floorsCount.setLocation(200, 145);
         floorsCount.setSize(40, 30);
@@ -105,10 +113,10 @@ public class Main {
         createWorld.setFocusPainted(false);
         createWorld.addActionListener((e) -> {
             //Тут викликається вюшка з вже згенерованим білдінгом
-//            Main main = new Main(Integer.parseInt(elevatorsCount.getValue().toString()),
-//                    Integer.parseInt(floorsCount.getValue().toString()),
-//                    (String)jComboBox.getSelectedItem()
-//                    );
+            Initialize(Integer.parseInt(elevatorsCount.getValue().toString()),
+                    Integer.parseInt(floorsCount.getValue().toString()),
+                    (String)jComboBox.getSelectedItem()
+            );
             //startFrame.dispatchEvent(new WindowEvent(startFrame, WindowEvent.WINDOW_CLOSING));
         });
 
