@@ -63,7 +63,7 @@ public class Building implements IBuilding {
                     });
                     passangerThread.start();
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

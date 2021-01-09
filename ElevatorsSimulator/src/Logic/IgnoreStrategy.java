@@ -35,7 +35,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     WorldInformation wi = WorldInformation.getInstance();
                     Passenger firstPassanger = floorQueue.poll();
                     Floor firstCalledFloor = wi.getBuilding().getFloors().get(firstPassanger.getSourceFloor());
-                    double step = 0.00001;
+                    double step = 0.0000005;
                     System.out.println("Elevator moving to " + firstPassanger.getSourceFloor() + " floor");
                     while (Math.abs(elevator.getY() - firstCalledFloor.getY()) > step) {
                         if (elevator.getY() < firstCalledFloor.getY()) {
