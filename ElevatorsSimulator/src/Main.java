@@ -55,22 +55,25 @@ public class Main {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         JFrame startFrame = new JFrame("Launch Elevator Simulator");
 
-        worldInformation.setBounds(0, 0 , (int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight());
+        worldInformation.setBounds(0, 0 , (int)worldInformation.getWorldWidth(),
+                (int) worldInformation.getWorldHeight());
         JPanel panel = new JPanel(null);
-        panel.setPreferredSize(new Dimension((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight()));
+        panel.setPreferredSize(new Dimension((int)worldInformation.getWorldWidth(),
+                (int) worldInformation.getWorldHeight()));
         panel.add(worldInformation);
-
-
 
         startFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         startFrame.setAlwaysOnTop(true);
         startFrame.setResizable(false);
-        startFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight());
+        startFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight() + 43);
         startFrame.add(panel);
         startFrame.setVisible(true);
+        startFrame.setLocation(dim.width/2-startFrame.getSize().width/2,
+                dim.height/2-startFrame.getSize().height/2);
 
         startFrame.setLocation(dim.width/2-startFrame.getSize().width/2,
                 dim.height/2-startFrame.getSize().height/2);
+        
 
         System.out.println("Created building with " + elevatorsNum + " elevators and "
             + floorsNum + " floors. Strategy - " + strategyStr);
