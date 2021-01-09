@@ -25,6 +25,6 @@ public class PassengerStrategy {
             }
         }
 
-        building.NotifyElevators(building.getFloors().get(passenger.getSourceFloor()));
+        building.NotifyElevators(passenger);
     }
 }
