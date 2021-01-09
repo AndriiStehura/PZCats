@@ -119,15 +119,32 @@ public class WorldInformation extends JPanel {
         super.paintComponent(g);
         this.setBackground(Color.WHITE);
 
+
+
+
         for (Floor floor : building.getFloors())
         {
             drawFloors(floor, g);
+
         }
         for (Elevator elevator:
                 building.getElevators()) {
+            elevator.setDoorWidth(elevatorWidth/2);
             drawElevators(elevator, g);
+            for(Passenger passenger : elevator.getPassengers()){
+                drawPassengers(passenger,g);
+            }
         }
     }
+
+    public void drawPassengers(Passenger passenger, Graphics g)
+    {
+        g.drawRect((int)passenger.getX(), (int)passenger.getY(), 30, (int)floorHeight - 30);
+
+        g.setColor(new Color(238,238,238));
+        g.fillRect((int)passenger.getX(), (int)passenger.getY(), 30, (int)floorHeight - 30);
+    }
+
 
     public void drawFloors(Floor floor, Graphics g)
     {
@@ -140,12 +157,12 @@ public class WorldInformation extends JPanel {
     {
         g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth, (int)floorHeight);
         g.setColor(new Color(156,156,158));
-        g.fillRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth/2, (int)floorHeight);
-        g.fillRect((int)elevator.getX() + (int)elevatorWidth - (int)elevatorWidth/2, (int)elevator.getY(),
-                (int)elevatorWidth/2, (int)floorHeight);
+        g.fillRect((int)elevator.getX(), (int)elevator.getY(), (int)elevator.getDoorWidth(), (int)floorHeight);
+        g.fillRect((int)elevator.getX() + (int)elevatorWidth - (int)elevator.getDoorWidth(), (int)elevator.getY(),
+                (int)elevator.getDoorWidth(), (int)floorHeight);
         g.setColor(Color.BLACK);
-        g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth/2, (int)floorHeight);
-        g.drawRect((int)elevator.getX() + (int)elevatorWidth - (int)elevatorWidth/2, (int)elevator.getY(),
-                (int)elevatorWidth/2, (int)floorHeight);
+        g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevator.getDoorWidth(), (int)floorHeight);
+        g.drawRect((int)elevator.getX() + (int)elevatorWidth - (int)elevator.getDoorWidth(), (int)elevator.getY(),
+                (int)elevator.getDoorWidth(), (int)floorHeight);
     }
 }
