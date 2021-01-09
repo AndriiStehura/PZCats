@@ -42,7 +42,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        
+        Initialize();
+        WorldInformation.getInstance().getBuilding().runAllThreads();
     }
     
     private void InterfaceInitialization(){

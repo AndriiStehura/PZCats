@@ -45,4 +45,12 @@ public class Building implements IBuilding {
     public void setPassengersQueue(BlockingQueue<Passenger> passengersQueue) {
         this.passengersQueue = passengersQueue;
     }
+
+    public void runAllThreads(){
+        for (var elevator:
+             elevators) {
+            Thread thread = new Thread(elevator);
+            thread.start();
+        }
+    }
 }

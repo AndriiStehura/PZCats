@@ -25,6 +25,6 @@ public class PassengerStrategy {
             }
         }
 
-        building.NotifyElevators(passenger);
+        building.updateQueue(passenger);
     }
 }
