@@ -35,8 +35,8 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     WorldInformation wi = WorldInformation.getInstance();
                     Passenger firstPassanger = floorQueue.poll();
                     Floor firstCalledFloor = wi.getBuilding().getFloors().get(firstPassanger.getSourceFloor());
-                    double step = 0.0000005;
-                    //double step = 0.0005; //for debug only
+                    //double step = 0.0000005;
+                    double step = 0.01; //for debug only
                     System.out.println("Elevator moving to " + firstPassanger.getSourceFloor() + " floor");
                     while (Math.abs(elevator.getY() - firstCalledFloor.getY()) > step) {
                         if (elevator.getY() < firstCalledFloor.getY()) {
@@ -49,6 +49,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     System.out.println("Elevator stopped on " + firstPassanger.getSourceFloor() + " floor");
                     elevator.setCurrentFloor(firstCalledFloor);
                     firstCalledFloor.ElevatorSourceFloorArrivedIgnoreStrategy(elevator, firstPassanger);
+
                     elevator.Stop();
                     elevator.OpenDoors();
                     elevator.CloseDoors();
@@ -65,7 +66,8 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     }
 
                     System.out.println("Elevator stopped on " + firstPassanger.getDestinationFloor() + " floor");
-                    destinationFloor.ElevatorDestinationFloorArrivedIgnoreStrategy(elevator, firstPassanger);
+                    destinationFloor.ElevatorDestinationFloorArrivedIgnoreStrategy(elevator);
+
                     elevator.setCurrentFloor(destinationFloor);
                     elevator.Stop();
                     elevator.OpenDoors();

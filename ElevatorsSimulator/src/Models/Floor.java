@@ -64,16 +64,31 @@ public class Floor {
 
     public void ElevatorSourceFloorArrivedIgnoreStrategy(Elevator elevator,
                                                          Passenger passengerToMove){
-        elevator.getPassengers().add(passengerToMove);
-        passengerList.remove(passengerToMove);
-        //RearrangePassengers();
+        //1 - забираємо з поверху
+        //2 - додаємо у ліфт
+        int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
+        for (int i = 0; i < passengerList.size(); ++i){
+            Passenger passenger = passengerList.get(i);
+            if(passengerToMove.getDestinationFloor() == passenger.getDestinationFloor()){
+                //passenger.setState(PassengerState.Leaving);
+                passengerList.remove(passenger);
+                elevator.getPassengers().add(passenger);
+                --i;
+            }
+        }
     }
 
-    public void ElevatorDestinationFloorArrivedIgnoreStrategy(Elevator elevator,
-                                                              Passenger passengerToLeave){
-        elevator.getPassengers().remove(passengerToLeave);
-        passengerList.add(passengerToLeave);
-        //RearrangePassengers();
+    public void ElevatorDestinationFloorArrivedIgnoreStrategy(Elevator elevator){
+        //1 - забираємо з ліфта
+        //2 - додаємо на поверх
+        int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
+        for (int i = 0; i < elevator.getPassengers().size(); ++i) {
+            Passenger passenger = elevator.getPassengers().get(i);
+            passenger.setState(PassengerState.Leaving);
+            passengerList.add(passenger);
+            elevator.getPassengers().remove(passenger);
+            --i;
+        }
     }
 
     public void ElevatorArrived(Elevator elevator){
@@ -96,7 +111,7 @@ public class Floor {
                 --i;
             }
         }
-        RearrangePassengers();
+        //RearrangePassengers();
     }
 
     public void RearrangePassengers(){
