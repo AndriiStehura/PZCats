@@ -79,10 +79,9 @@ public class Elevator extends BaseElevator implements Runnable {
         state = state;
     }
 
-    public void Stop()
+    public void Stop(Floor floor)
     {
-        OpenDoors();
-
+        floor.ElevatorArrived(this);
     }
 
     public void OpenDoors()

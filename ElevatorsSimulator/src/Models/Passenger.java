@@ -73,4 +73,18 @@ public class Passenger {
         this.destinationFloor = destinationFloor;
         this.state = state;
     }
+
+    public void Leave(){
+        Building building = WorldInformation.getInstance().getBuilding();
+        y = building.getFloors().get(destinationFloor).getY();
+        Thread leavingThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                strategy.Move(0 - WorldInformation.getInstance().getPassengerWidth());
+                state = PassengerState.Left;
+                building.getLeavingList().remove(this);
+                System.out.println("Passenger left");
+            }
+        });
+    }
 }
