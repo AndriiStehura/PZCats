@@ -2,6 +2,7 @@ package Logic;
 
 import Models.Building;
 import Models.Passenger;
+import Models.PassengerState;
 import Models.WorldInformation;
 
 public class PassengerStrategy {
@@ -22,6 +23,7 @@ public class PassengerStrategy {
                     passenger.setX(passenger.getX() + 0.00001);
             }
 
+        passenger.setState(PassengerState.Waiting);
         System.out.println("Passenger stopped");
         building.updateQueue(passenger);
     }

@@ -2,6 +2,7 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Floor {
     private List<Passenger> passengerList;
@@ -46,11 +47,14 @@ public class Floor {
         WorldInformation wi = WorldInformation.getInstance();
         double leftOffset = wi.get_xMargin() + wi.getElevatorWidth();
         leftOffset *= wi.getElevatorsNum();
-        if(passengerList.isEmpty()){
+        var waitingPassengers = passengerList.stream()
+                .filter(x -> x.getState() == PassengerState.Waiting)
+                .collect(Collectors.toList());
+        if(waitingPassengers.isEmpty()){
             pos = leftOffset + wi.getPassengerMargin();
         }
         else {
-            pos = passengerList.get(passengerList.size() - 1).getX()
+            pos = waitingPassengers.get(waitingPassengers.size() - 1).getX()
                     + wi.getPassengerMargin();
         }
 
