@@ -29,7 +29,7 @@ public class Main {
         List<Elevator> elevators = new ArrayList<>();
         BlockingQueue<Passenger> passengersQueue = new LinkedBlockingQueue<>();
         for (int i = 0; i < worldInformation.getElevatorsNum(); ++i){
-            Elevator e = new Elevator(200);
+            Elevator e = new Elevator(200, floors.get(0));
             e.setX((worldInformation.get_xMargin() + worldInformation.getElevatorWidth()) * (i + 1));
             e.setY(worldInformation.getWorldHeight() - worldInformation.getFloorHeight());
             ElevatorStrategy strategy = new IgnoreStrategy(e, passengersQueue);
@@ -42,7 +42,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        
+        Initialize();
     }
     
     private void InterfaceInitialization(){
