@@ -73,13 +73,4 @@ public class Passenger {
         this.destinationFloor = destinationFloor;
         this.state = state;
     }
-
-    public void Leave(){
-        Thread leavingThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                
-            }
-        });
-    }
 }
