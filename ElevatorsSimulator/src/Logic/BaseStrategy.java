@@ -6,12 +6,10 @@ import java.util.*;
 
 public abstract class BaseStrategy {
     protected Elevator elevator;
-    protected Queue<Floor> floorQueue;
+    protected Queue<Passenger> floorQueue;
 
-    public BaseStrategy(Elevator elevator, Queue<Floor> floorQueue){
+    public BaseStrategy(Elevator elevator, Queue<Passenger> floorQueue){
         this.elevator = elevator;
         this.floorQueue = floorQueue;
     }
-
-    //TODO: deliver queue
 }
