@@ -74,17 +74,31 @@ public class Main {
 
         System.out.println("Created building with " + elevatorsNum + " elevators and "
             + floorsNum + " floors. Strategy - " + strategyStr);
+        Thread invalidatingThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    panel.repaint();
+                    /*try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }*/
+                }
+            }
+        });
+        invalidatingThread.start();
+        WorldInformation.getInstance().getBuilding().runAllThreads();
     }
 
     public static void main(String[] args) {
         InterfaceInitialization();
-        WorldInformation.getInstance().getBuilding().runAllThreads();
     }
 
     private static void AddElevators(JFrame frame, WorldInformation information){
 
     }
-    
+
     private static void InterfaceInitialization(){
         /*CustomLogger.log("temp");
         CustomLogger.log("done1");
