@@ -4,17 +4,17 @@ import Interfaces.BaseElevatorStrategy;
 import Interfaces.ElevatorStrategy;
 import Interfaces.IElevator;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Elevator extends BaseElevator implements Runnable {
     private double x, y;
     private int maxWeight;
     private Floor currentFloor;
     private ElevatorStrategy strategy;
-    private List<Passenger> passengers;
+    private CopyOnWriteArrayList<Passenger> passengers;
     private ElevatorState state;
 
     public Floor getCurrentFloor() {
@@ -25,10 +25,10 @@ public class Elevator extends BaseElevator implements Runnable {
         this.currentFloor = currentFloor;
     }
 
-    public List<Passenger> getPassengers() {
+    public CopyOnWriteArrayList<Passenger> getPassengers() {
         return passengers;
     }
-    public void setPassengers(List<Passenger> passengers) {
+    public void setPassengers(CopyOnWriteArrayList<Passenger> passengers) {
         this.passengers = passengers;
     }
 
@@ -36,7 +36,7 @@ public class Elevator extends BaseElevator implements Runnable {
     {
         this.maxWeight = maxWeight;
         currentFloor = initialFloor;
-        passengers = new ArrayList<>();
+        passengers = new CopyOnWriteArrayList<>();
     }
 
     @Override
@@ -80,14 +80,11 @@ public class Elevator extends BaseElevator implements Runnable {
         state = ElevatorState.Stopped;
     }
 
-    public void Called(Passenger passenger) {
-        getStrategy().getFloorQueue().add(passenger);
-    }
-
     public void CloseDoors()
     {
         state = ElevatorState.Moving;
     }
+
 
     @Override
     public void setStrategy(ElevatorStrategy strategy) {
