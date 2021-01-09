@@ -119,20 +119,27 @@ public class WorldInformation extends JPanel {
         super.paintComponent(g);
         this.setBackground(Color.WHITE);
 
-//        for (Floor floor : floors)
-//        {
-//            floor.draw(g);
-//        }
+        for (Floor floor : building.getFloors())
+        {
+            drawFloors(floor, g);
+        }
         for (Elevator elevator:
                 building.getElevators()) {
             drawElevators(elevator, g);
         }
     }
 
+    public void drawFloors(Floor floor, Graphics g)
+    {
+        g.drawRect(0, (int)floor.getY(), (int)this.getWorldWidth(), (int)floorHeight);
+
+        g.setColor(new Color(238,238,238));
+        g.fillRect(0, (int)floor.getY(), (int)this.getWorldWidth(), (int)floorHeight);
+    }
     public void drawElevators(Elevator elevator, Graphics g)
     {
         g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth, (int)floorHeight);
-        g.setColor(Color.WHITE);
+        g.setColor(new Color(156,156,158));
         g.fillRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth/2, (int)floorHeight);
         g.fillRect((int)elevator.getX() + (int)elevatorWidth - (int)elevatorWidth/2, (int)elevator.getY(),
                 (int)elevatorWidth/2, (int)floorHeight);
