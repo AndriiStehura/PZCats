@@ -52,12 +52,16 @@ public class Main {
         Building building = new Building(elevators, floors, passengersQueue);
         worldInformation.setBuilding(building);
 
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         JFrame startFrame = new JFrame("Launch Elevator Simulator");
         startFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         startFrame.setAlwaysOnTop(true);
         startFrame.setResizable(false);
         startFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight());
         startFrame.setVisible(true);
+
+        startFrame.setLocation(dim.width/2-startFrame.getSize().width/2,
+                dim.height/2-startFrame.getSize().height/2);
 
         System.out.println("Created building with " + elevatorsNum + " elevators and "
             + floorsNum + " floors. Strategy - " + strategyStr);
@@ -127,7 +131,6 @@ public class Main {
         createWorld.setBounds(300, 200, 180, 25);
         createWorld.setFocusPainted(false);
         createWorld.addActionListener((e) -> {
-
             Initialize((Integer)floorsCount.getValue(), (Integer)elevatorsCount.getValue(),
                     jComboBox.getSelectedIndex());
             startFrame.dispose();
