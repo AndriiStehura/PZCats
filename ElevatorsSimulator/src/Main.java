@@ -73,6 +73,7 @@ public class Main {
 
         startFrame.setLocation(dim.width/2-startFrame.getSize().width/2,
                 dim.height/2-startFrame.getSize().height/2);
+        
 
         System.out.println("Created building with " + elevatorsNum + " elevators and "
             + floorsNum + " floors. Strategy - " + strategyStr);
@@ -86,7 +87,7 @@ public class Main {
     private static void AddElevators(JFrame frame, WorldInformation information){
 
     }
-    
+
     private static void InterfaceInitialization(){
         /*CustomLogger.log("temp");
         CustomLogger.log("done1");
