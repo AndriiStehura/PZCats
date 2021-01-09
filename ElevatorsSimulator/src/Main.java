@@ -53,7 +53,7 @@ public class Main {
         InterfaceInitialization();
         WorldInformation.getInstance().getBuilding().runAllThreads();
     }
-    
+
     private static void InterfaceInitialization(){
         /*CustomLogger.log("temp");
         CustomLogger.log("done1");
