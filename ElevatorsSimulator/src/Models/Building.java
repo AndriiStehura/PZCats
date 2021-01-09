@@ -54,6 +54,8 @@ public class Building implements IBuilding {
                 while (true){
                     Passenger passenger = factory.getPassenger();
                     Floor passangersFloor = floors.get(passenger.getSourceFloor());
+                    passenger.setY(passangersFloor.getY());
+                    passenger.setX(WorldInformation.getInstance().getWorldWidth());
                     passangersFloor.getPassengerList().add(passenger);
                     Thread passangerThread = new Thread(new Runnable() {
                         @Override
