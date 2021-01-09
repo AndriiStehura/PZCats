@@ -15,7 +15,6 @@ public class Elevator extends BaseElevator {
     private ElevatorStrategy strategy;
     private List<Passenger> passengers;
     private ElevatorState state;
-    private Queue<Floor> floorQueue;
 
     public Floor getCurrentFloor() {
         return currentFloor;
@@ -80,8 +79,8 @@ public class Elevator extends BaseElevator {
         state = ElevatorState.Stopped;
     }
 
-    public void Called(Floor floor) {
-        floorQueue.add(floor);
+    public void Called(Passenger passenger) {
+        getStrategy().getFloorQueue().add(passenger);
     }
 
     public void CloseDoors()

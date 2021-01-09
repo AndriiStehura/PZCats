@@ -13,4 +13,12 @@ public abstract class BaseStrategy {
         this.elevator = elevator;
         this.floorQueue = floorQueue;
     }
+
+    public BlockingQueue<Passenger> getFloorQueue() {
+        return floorQueue;
+    }
+
+    public void setFloorQueue(BlockingQueue<Passenger> floorQueue) {
+        this.floorQueue = floorQueue;
+    }
 }

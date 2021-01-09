@@ -26,10 +26,9 @@ public class Building implements IBuilding {
     }
 
     @Override
-    public void NotifyElevators(Floor floor) {
-        for (Elevator elevator:
-             elevators) {
-            elevator.Called(floor);
+    public void NotifyElevators(Passenger passenger) {
+        for (Elevator elevator: elevators) {
+            elevator.Called(passenger);
         }
     }
 
