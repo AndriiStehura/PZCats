@@ -2,6 +2,7 @@ package Logic;
 
 import Models.Building;
 import Models.Passenger;
+import Models.PassengerState;
 import Models.WorldInformation;
 
 public class PassengerStrategy {
@@ -11,21 +12,18 @@ public class PassengerStrategy {
         this.passenger = passenger;
     }
 
-    public void Move(double dist){
+    public void Move(double dest){
         Building building = WorldInformation.getInstance().getBuilding();
-        /*double distX = building.getFloors().get(passenger.getSourceFloor())
-                .getNextPassengerPosition();*/
 
         System.out.println("Passenger started going");
-        while (Math.abs(passenger.getX() - dist) > 0.001){
-            passenger.setX(passenger.getX() - 0.01);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while (Math.abs(passenger.getX() - dest) > 0.001){
+                if(passenger.getX() > dest)
+                    passenger.setX(passenger.getX() - 0.00001);
+                else
+                    passenger.setX(passenger.getX() + 0.00001);
             }
-        }
 
+        passenger.setState(PassengerState.Waiting);
         System.out.println("Passenger stopped");
         building.updateQueue(passenger);
     }
