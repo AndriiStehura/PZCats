@@ -11,20 +11,21 @@ public class PassengerStrategy {
         this.passenger = passenger;
     }
 
-    public void Move(double dist){
+    public void Move(double dest){
         Building building = WorldInformation.getInstance().getBuilding();
-        /*double distX = building.getFloors().get(passenger.getSourceFloor())
-                .getNextPassengerPosition();*/
 
         System.out.println("Passenger started going");
-        while (Math.abs(passenger.getX() - dist) > 0.001){
-            passenger.setX(passenger.getX() - 0.01);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while (Math.abs(passenger.getX() - dest) > 0.001){
+                if(passenger.getX() > dest)
+                    passenger.setX(passenger.getX() - 0.01);
+                else
+                    passenger.setX(passenger.getX() + 0.01);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
         System.out.println("Passenger stopped");
         building.updateQueue(passenger);
