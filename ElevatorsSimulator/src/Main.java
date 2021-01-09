@@ -45,7 +45,7 @@ public class Main {
         Initialize();
     }
     
-    private void InterfaceInitialization(){
+    private static void InterfaceInitialization(){
         /*CustomLogger.log("temp");
         CustomLogger.log("done1");
         CustomLogger.log("done1");*/
