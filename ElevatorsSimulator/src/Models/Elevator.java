@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
-public class Elevator extends BaseElevator {
+public class Elevator extends BaseElevator implements Runnable {
     private double x, y;
     private int maxWeight;
     private Floor currentFloor;
@@ -106,5 +106,10 @@ public class Elevator extends BaseElevator {
                 .sum();
 
         return  passengersWeight + weight <= maxWeight;
+    }
+
+    @Override
+    public void run() {
+        strategy.Move();
     }
 }
