@@ -5,11 +5,13 @@ import Interfaces.IElevator;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Building implements IBuilding {
     private List<Elevator> elevators;
     private List<Floor> floors;
     private BlockingQueue<Passenger> passengersQueue;
+    private CopyOnWriteArrayList<Passenger> leavingList;
 
     public Building(List<Elevator> elevators, List<Floor> floors, BlockingQueue<Passenger> passengersQueue){
         this.elevators = elevators;
