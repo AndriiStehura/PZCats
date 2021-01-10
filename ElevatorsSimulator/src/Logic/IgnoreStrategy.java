@@ -58,6 +58,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     //elevator.Stop(firstCalledFloor);
 
                     elevator.OpenDoors();
+                    firstPassanger.getStrategy().Move(this.elevator.getX());
                     firstPassanger.setState(PassengerState.Moving);
                     elevator.CloseDoors();
 
