@@ -73,7 +73,7 @@ public class Main {
 
         startFrame.setLocation(dim.width/2-startFrame.getSize().width/2,
                 dim.height/2-startFrame.getSize().height/2);
-        
+        startFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         System.out.println("Created building with " + elevatorsNum + " elevators and "
             + floorsNum + " floors. Strategy - " + strategyStr);
