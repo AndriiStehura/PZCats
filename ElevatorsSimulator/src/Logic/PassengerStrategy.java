@@ -16,11 +16,12 @@ public class PassengerStrategy {
         Building building = WorldInformation.getInstance().getBuilding();
 
         System.out.println("Passenger started going");
-        while (Math.abs(passenger.getX() - dest) > 0.001){
+        double step = 0.0000005;
+        while (Math.abs(passenger.getX() - dest) > step){
                 if(passenger.getX() > dest)
-                    passenger.setX(passenger.getX() - 0.00001);
+                    passenger.setX(passenger.getX() - step);
                 else
-                    passenger.setX(passenger.getX() + 0.00001);
+                    passenger.setX(passenger.getX() + step);
             }
 
         passenger.setState(PassengerState.Waiting);

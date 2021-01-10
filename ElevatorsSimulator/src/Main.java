@@ -17,11 +17,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Main {
 
     private static void Initialize(int floorsNum, int elevatorsNum, int elevatorStrategy){
-        int xMargin = 200, yMargin = 50, floorHeight = 100, elevatorWidth=50;
+        int xMargin = 200, yMargin = 50, floorHeight = 100, elevatorWidth=50, passengerWidth = 25;
 
         WorldInformation worldInformation = WorldInformation.getInstance();
         worldInformation.Initialize(floorsNum, elevatorsNum, xMargin,
-                yMargin, floorHeight, elevatorWidth);
+                yMargin, floorHeight, elevatorWidth, passengerWidth);
 
         List<Floor> floors = new ArrayList<>();
         for (int i = 0; i < worldInformation.getFloorsNum(); ++i){
@@ -82,11 +82,6 @@ public class Main {
             public void run() {
                 while (true) {
                     panel.repaint();
-                    /*try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }*/
                 }
             }
         });
@@ -98,15 +93,7 @@ public class Main {
         InterfaceInitialization();
     }
 
-    private static void AddElevators(JFrame frame, WorldInformation information){
-
-    }
-
     private static void InterfaceInitialization(){
-        /*CustomLogger.log("temp");
-        CustomLogger.log("done1");
-        CustomLogger.log("done1");*/
-
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
         JFrame startFrame = new JFrame("Launch Elevator Simulator");

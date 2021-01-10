@@ -41,7 +41,7 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
                 }
 
                 if (floorsStream.anyMatch(x -> !predicate.test(x))) {
-                    elevator.Stop();
+                    elevator.Stop(null);
                     elevator.OpenDoors();
                     elevator.CloseDoors();
                 }
@@ -56,7 +56,7 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
                 }
 
                 if (floorsStream.anyMatch(x -> !predicate.test(x))) {
-                    elevator.Stop();
+                    elevator.Stop(null);
                     elevator.OpenDoors();
                     elevator.CloseDoors();
                 }

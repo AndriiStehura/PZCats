@@ -2,24 +2,25 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import java.util.stream.Collectors;
 public class Floor {
-    private List<Passenger> passengerList;
+    private CopyOnWriteArrayList<Passenger> passengerList;
     private double elevatorPoints;
     //public Building buildingReference;
     private double floorHeight;
     private double yCoordinate;
 
     public Floor(){
-        passengerList = new ArrayList<>();
+        passengerList = new CopyOnWriteArrayList<>();
     }
 
-    public List<Passenger> getPassengerList() {
+    public CopyOnWriteArrayList<Passenger> getPassengerList() {
         return passengerList;
     }
 
-    public void setPassengerList(List<Passenger> passengerList) {
+    public void setPassengerList(CopyOnWriteArrayList<Passenger> passengerList) {
         this.passengerList = passengerList;
     }
 
@@ -61,13 +62,44 @@ public class Floor {
         return pos;
     }
 
-    public void ElevatorArrived(Elevator elevator){
+    public void ElevatorSourceFloorArrivedIgnoreStrategy(Elevator elevator,
+                                                         Passenger passengerToMove){
+        //1 - забираємо з поверху
+        //2 - додаємо у ліфт
         int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
+        for (int i = 0; i < passengerList.size(); ++i){
+            Passenger passenger = passengerList.get(i);
+            if(passengerToMove.getDestinationFloor() == passenger.getDestinationFloor()){
+                //passenger.setState(PassengerState.Leaving);
+                passengerList.remove(passenger);
+                elevator.getPassengers().add(passenger);
+                --i;
+            }
+        }
+    }
+
+    public void ElevatorDestinationFloorArrivedIgnoreStrategy(Elevator elevator){
+        //1 - забираємо з ліфта
+        //2 - додаємо на поверх
+        int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
+        for (int i = 0; i < elevator.getPassengers().size(); ++i) {
+            Passenger passenger = elevator.getPassengers().get(i);
+            passenger.setState(PassengerState.Leaving);
+            passengerList.add(passenger);
+            elevator.getPassengers().remove(passenger);
+            --i;
+        }
+    }
+
+    public void ElevatorArrived(Elevator elevator){
+        Building building = WorldInformation.getInstance().getBuilding();
+        int floorIndex = building.getFloors().indexOf(this);
         for (int i = 0; i < elevator.getPassengers().size(); ++i){
             Passenger p = elevator.getPassengers().get(i);
             if(p.getDestinationFloor() == floorIndex){
                 p.setState(PassengerState.Leaving);
                 elevator.getPassengers().remove(p);
+                building.getLeavingList().add(p);
                 --i;
             }
         }
@@ -81,7 +113,7 @@ public class Floor {
                 --i;
             }
         }
-        RearrangePassengers();
+        //RearrangePassengers();
     }
 
     public void RearrangePassengers(){

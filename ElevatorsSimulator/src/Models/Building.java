@@ -17,6 +17,7 @@ public class Building implements IBuilding {
         this.elevators = elevators;
         this.floors = floors;
         this.passengersQueue = passengersQueue;
+        leavingList = new CopyOnWriteArrayList<>();
     }
 
     public List<Elevator> getElevators() {
@@ -80,5 +81,9 @@ public class Building implements IBuilding {
             Thread thread = new Thread(elevator);
             thread.start();
         }
+    }
+
+    public CopyOnWriteArrayList<Passenger> getLeavingList() {
+        return leavingList;
     }
 }
