@@ -75,12 +75,8 @@ public class Main {
         mainFrame.setVisible(true);
         mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2,
                 dim.height/2-mainFrame.getSize().height/2);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2,
-                dim.height/2-mainFrame.getSize().height/2);
-
-        System.out.println("Created building with " + elevatorsNum + " elevators and "
-            + floorsNum + " floors. Strategy - " + strategyStr);
         Thread invalidatingThread = new Thread(new Runnable() {
             @Override
             public void run() {

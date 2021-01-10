@@ -81,7 +81,6 @@ public class Elevator extends BaseElevator implements Runnable {
 
     public void Stop(Floor floor)
     {
-
         floor.ElevatorArrived(this);
     }
 
