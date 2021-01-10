@@ -104,7 +104,6 @@ public class WorldInformation extends JPanel {
         thisInstance.yMargin = yMargin;
         thisInstance.elevatorWidth = elevatorWidth;
         thisInstance.passengerWidth = passengerWidth;
-<<<<<<< Updated upstream
 
         Image image = null;
         String imageURL = "Images/passenger.png";
@@ -115,9 +114,6 @@ public class WorldInformation extends JPanel {
             e.printStackTrace();
         }
         passengerImage = image.getScaledInstance(90, 90, Image.SCALE_DEFAULT);
-=======
-        thisInstance.passengerMargin = passengerMargin;
->>>>>>> Stashed changes
     }
 
     public static WorldInformation getInstance() {
