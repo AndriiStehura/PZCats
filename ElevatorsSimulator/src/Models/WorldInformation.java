@@ -1,7 +1,10 @@
 package Models;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class WorldInformation extends JPanel {
     private static WorldInformation instance;
@@ -14,6 +17,7 @@ public class WorldInformation extends JPanel {
     private Building building;
     private double passengerWidth;
     private double passengerMargin;
+    private Image passengerImage;
 
     public double getPassengerMargin() {
         return passengerMargin;
@@ -100,6 +104,16 @@ public class WorldInformation extends JPanel {
         thisInstance.yMargin = yMargin;
         thisInstance.elevatorWidth = elevatorWidth;
         thisInstance.passengerWidth = passengerWidth;
+
+        Image image = null;
+        String imageURL = "Images/passenger.png";
+        File file = new File(imageURL);
+        try {
+            image = ImageIO.read(file);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        passengerImage = image.getScaledInstance(90, 90, Image.SCALE_DEFAULT);
     }
 
     public static WorldInformation getInstance() {
@@ -141,10 +155,8 @@ public class WorldInformation extends JPanel {
 
     public void drawPassengers(Passenger passenger, Graphics g)
     {
-        g.drawRect((int)passenger.getX(), (int)passenger.getY(), 30, (int)floorHeight - 30);
-
-        g.setColor(new Color(0,0,0));
-        g.fillRect((int)passenger.getX(), (int)passenger.getY(), 30, (int)floorHeight - 30);
+        g.drawImage(passengerImage, (int)passenger.getX() ,
+                (int)passenger.getY() + 10, null);
     }
 
 
