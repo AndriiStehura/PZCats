@@ -86,5 +86,6 @@ public class Passenger {
                 System.out.println("Passenger left");
             }
         });
+        leavingThread.start();
     }
 }
