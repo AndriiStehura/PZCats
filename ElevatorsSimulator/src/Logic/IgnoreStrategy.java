@@ -48,9 +48,10 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
 
                     System.out.println("Elevator stopped on " + firstPassanger.getSourceFloor() + " floor");
                     elevator.setCurrentFloor(firstCalledFloor);
-                    firstCalledFloor.ElevatorSourceFloorArrivedIgnoreStrategy(elevator, firstPassanger);
+                    //firstCalledFloor.ElevatorSourceFloorArrivedIgnoreStrategy(elevator, firstPassanger);
 
-                    elevator.Stop();
+                    elevator.Stop(firstCalledFloor);
+
                     elevator.OpenDoors();
                     elevator.CloseDoors();
 
@@ -66,10 +67,10 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     }
 
                     System.out.println("Elevator stopped on " + firstPassanger.getDestinationFloor() + " floor");
-                    destinationFloor.ElevatorDestinationFloorArrivedIgnoreStrategy(elevator);
+                    //destinationFloor.ElevatorDestinationFloorArrivedIgnoreStrategy(elevator);
 
                     elevator.setCurrentFloor(destinationFloor);
-                    elevator.Stop();
+                    elevator.Stop(destinationFloor);
                     elevator.OpenDoors();
                     elevator.CloseDoors();
                 } catch (NullPointerException e) {

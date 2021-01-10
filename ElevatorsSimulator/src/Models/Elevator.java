@@ -16,6 +16,16 @@ public class Elevator extends BaseElevator implements Runnable {
     private ElevatorStrategy strategy;
     private CopyOnWriteArrayList<Passenger> passengers;
     private ElevatorState state;
+    private double doorWidth;
+    private double constDoorWidth = 25.0;
+
+    public double getDoorWidth() {
+        return doorWidth;
+    }
+
+    public void setDoorWidth(double doorWidth) {
+        this.doorWidth = doorWidth;
+    }
 
     public Floor getCurrentFloor() {
         return currentFloor;
@@ -69,19 +79,26 @@ public class Elevator extends BaseElevator implements Runnable {
         state = state;
     }
 
-    public void Stop()
+    public void Stop(Floor floor)
     {
-        OpenDoors();
-
+        floor.ElevatorArrived(this);
     }
 
     public void OpenDoors()
     {
+        double step = 0.0000001;
+        while (doorWidth > 0){
+            doorWidth -= step;
+        }
         state = ElevatorState.Stopped;
     }
 
     public void CloseDoors()
     {
+        double step = 0.0000001;
+        while (doorWidth < constDoorWidth){
+            doorWidth += step;
+        }
         state = ElevatorState.Moving;
     }
 

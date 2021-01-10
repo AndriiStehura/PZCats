@@ -92,12 +92,14 @@ public class Floor {
     }
 
     public void ElevatorArrived(Elevator elevator){
-        int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
+        Building building = WorldInformation.getInstance().getBuilding();
+        int floorIndex = building.getFloors().indexOf(this);
         for (int i = 0; i < elevator.getPassengers().size(); ++i){
             Passenger p = elevator.getPassengers().get(i);
             if(p.getDestinationFloor() == floorIndex){
                 p.setState(PassengerState.Leaving);
                 elevator.getPassengers().remove(p);
+                building.getLeavingList().add(p);
                 --i;
             }
         }

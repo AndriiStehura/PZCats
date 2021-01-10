@@ -89,7 +89,9 @@ public class WorldInformation extends JPanel {
 
     private WorldInformation() { }
 
-    public void Initialize(int floorsNum, int elevatorsNum, int xMargin, int yMargin, double floorHeight, double elevatorWidth){
+    public void Initialize(int floorsNum, int elevatorsNum, int xMargin,
+                           int yMargin, double floorHeight, double elevatorWidth,
+                           int passengerWidth){
         WorldInformation thisInstance = getInstance();
         thisInstance.elevatorsNum = elevatorsNum;
         thisInstance.floorHeight = floorHeight;
@@ -97,6 +99,7 @@ public class WorldInformation extends JPanel {
         thisInstance.xMargin = xMargin;
         thisInstance.yMargin = yMargin;
         thisInstance.elevatorWidth = elevatorWidth;
+        thisInstance.passengerWidth = passengerWidth;
     }
 
     public static WorldInformation getInstance() {
@@ -119,15 +122,31 @@ public class WorldInformation extends JPanel {
         super.paintComponent(g);
         this.setBackground(Color.WHITE);
 
-        for (Floor floor : building.getFloors())
-        {
+        for (Floor floor : building.getFloors()) {
             drawFloors(floor, g);
+            for (Passenger passenger: floor.getPassengerList()) {
+                drawPassengers(passenger, g);
+            }
         }
-        for (Elevator elevator:
-                building.getElevators()) {
+
+        for (Elevator elevator: building.getElevators()) {
+            elevator.setDoorWidth(elevatorWidth/2);
             drawElevators(elevator, g);
         }
+
+        for (Passenger passenger: building.getLeavingList()){
+            drawPassengers(passenger, g);
+        }
     }
+
+    public void drawPassengers(Passenger passenger, Graphics g)
+    {
+        g.drawRect((int)passenger.getX(), (int)passenger.getY(), 30, (int)floorHeight - 30);
+
+        g.setColor(new Color(0,0,0));
+        g.fillRect((int)passenger.getX(), (int)passenger.getY(), 30, (int)floorHeight - 30);
+    }
+
 
     public void drawFloors(Floor floor, Graphics g)
     {
@@ -144,12 +163,12 @@ public class WorldInformation extends JPanel {
     {
         g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth, (int)floorHeight);
         g.setColor(new Color(156,156,158));
-        g.fillRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth/2, (int)floorHeight);
-        g.fillRect((int)elevator.getX() + (int)elevatorWidth - (int)elevatorWidth/2, (int)elevator.getY(),
-                (int)elevatorWidth/2, (int)floorHeight);
+        g.fillRect((int)elevator.getX(), (int)elevator.getY(), (int)elevator.getDoorWidth(), (int)floorHeight);
+        g.fillRect((int)elevator.getX() + (int)elevatorWidth - (int)elevator.getDoorWidth(), (int)elevator.getY(),
+                (int)elevator.getDoorWidth(), (int)floorHeight);
         g.setColor(Color.BLACK);
-        g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevatorWidth/2, (int)floorHeight);
-        g.drawRect((int)elevator.getX() + (int)elevatorWidth - (int)elevatorWidth/2, (int)elevator.getY(),
-                (int)elevatorWidth/2, (int)floorHeight);
+        g.drawRect((int)elevator.getX(), (int)elevator.getY(), (int)elevator.getDoorWidth(), (int)floorHeight);
+        g.drawRect((int)elevator.getX() + (int)elevatorWidth - (int)elevator.getDoorWidth(), (int)elevator.getY(),
+                (int)elevator.getDoorWidth(), (int)floorHeight);
     }
 }
