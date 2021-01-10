@@ -34,6 +34,11 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
 
                     WorldInformation wi = WorldInformation.getInstance();
                     Passenger firstPassanger = floorQueue.poll();
+                    if(firstPassanger.getState() != PassengerState.Waiting) //because we can still have this passenger in
+                    {                                                       //our general queue due to our strategy
+                        continue;
+                    }
+
                     Floor firstCalledFloor = wi.getBuilding().getFloors().get(firstPassanger.getSourceFloor());
                     double step = 0.0000005;
                     //double step = 0.01; //for debug only
@@ -48,9 +53,9 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
 
                     System.out.println("Elevator stopped on " + firstPassanger.getSourceFloor() + " floor");
                     elevator.setCurrentFloor(firstCalledFloor);
-                    //firstCalledFloor.ElevatorSourceFloorArrivedIgnoreStrategy(elevator, firstPassanger);
+                    firstCalledFloor.ElevatorSourceFloorArrivedIgnoreStrategy(elevator, firstPassanger);
 
-                    elevator.Stop(firstCalledFloor);
+                    //elevator.Stop(firstCalledFloor);
 
                     elevator.OpenDoors();
                     elevator.CloseDoors();
@@ -67,10 +72,10 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     }
 
                     System.out.println("Elevator stopped on " + firstPassanger.getDestinationFloor() + " floor");
-                    //destinationFloor.ElevatorDestinationFloorArrivedIgnoreStrategy(elevator);
+                    destinationFloor.ElevatorDestinationFloorArrivedIgnoreStrategy(elevator);
 
                     elevator.setCurrentFloor(destinationFloor);
-                    elevator.Stop(destinationFloor);
+                    //elevator.Stop(destinationFloor);
                     elevator.OpenDoors();
                     elevator.CloseDoors();
                 } catch (NullPointerException e) {
