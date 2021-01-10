@@ -66,6 +66,7 @@ public class Floor {
                                                          Passenger passengerToMove){
         //1 - забираємо з поверху
         //2 - додаємо у ліфт
+        Building building = WorldInformation.getInstance().getBuilding();
         int floorIndex = WorldInformation.getInstance().getBuilding().getFloors().indexOf(this);
         for (int i = 0; i < passengerList.size(); ++i){
             Passenger passenger = passengerList.get(i);
@@ -73,6 +74,7 @@ public class Floor {
                 //passenger.setState(PassengerState.Leaving);
                 passengerList.remove(passenger);
                 elevator.getPassengers().add(passenger);
+                building.getLeavingList().add(passenger);
                 --i;
             }
         }
