@@ -155,7 +155,9 @@ public class WorldInformation extends JPanel {
 
     public void drawPassengers(Passenger passenger, Graphics g)
     {
-        if(passenger.getState() != PassengerState.Moving)
+        PassengerState currentState = passenger.getState();
+        if(currentState != PassengerState.Moving &&
+                currentState !=  PassengerState.Left)
         g.drawImage(passengerImage, (int)passenger.getX() ,
                 (int)passenger.getY() + 10, null);
     }
