@@ -48,16 +48,23 @@ public class Floor {
         WorldInformation wi = WorldInformation.getInstance();
         double leftOffset = wi.get_xMargin() + wi.getElevatorWidth();
         leftOffset *= wi.getElevatorsNum();
-        var waitingPassengers = passengerList.stream()
-                .filter(x -> x.getState() == PassengerState.Waiting)
+        leftOffset += wi.getElevatorWidth() + wi.getPassengerMargin();
+
+        double passengersCount = passengerList.stream()
+                .filter(x -> x.getState() == PassengerState.Waiting ||
+                        x.getState() == PassengerState.Spawned).count() - 1;
+        double passengerOffset = passengersCount * (wi.getPassengerWidth() + wi.getPassengerMargin());
+        pos = leftOffset + passengerOffset;
+        /*var waitingPassengers = passengerList.stream()
+                .filter(x -> x.getState() == PassengerState.Waiting )
                 .collect(Collectors.toList());
         if(waitingPassengers.isEmpty()){
-            pos = leftOffset + wi.getPassengerMargin();
+            pos = leftOffset + wi.getPassengerMargin() + wi.getElevatorWidth() + 5;
         }
         else {
             pos = waitingPassengers.get(waitingPassengers.size() - 1).getX()
                     + wi.getPassengerMargin();
-        }
+        }*/
 
         return pos;
     }

@@ -95,7 +95,7 @@ public class WorldInformation extends JPanel {
 
     public void Initialize(int floorsNum, int elevatorsNum, int xMargin,
                            int yMargin, double floorHeight, double elevatorWidth,
-                           int passengerWidth){
+                           int passengerWidth, int passengerMargin){
         WorldInformation thisInstance = getInstance();
         thisInstance.elevatorsNum = elevatorsNum;
         thisInstance.floorHeight = floorHeight;
