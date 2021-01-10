@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class WorldInformation extends JPanel {
     private static WorldInformation instance;
@@ -17,7 +18,15 @@ public class WorldInformation extends JPanel {
     private Building building;
     private double passengerWidth;
     private double passengerMargin;
-    private Image passengerImage;
+    private ArrayList<Image> passengerImages;
+
+    public ArrayList<Image> getPassengerImages() {
+        return passengerImages;
+    }
+
+    public void setPassengerImages(ArrayList<Image> passengerImages) {
+        this.passengerImages = passengerImages;
+    }
 
     public double getPassengerMargin() {
         return passengerMargin;
@@ -105,15 +114,26 @@ public class WorldInformation extends JPanel {
         thisInstance.elevatorWidth = elevatorWidth;
         thisInstance.passengerWidth = passengerWidth;
 
-        Image image = null;
-        String imageURL = "Images/passenger.png";
-        File file = new File(imageURL);
+        passengerImages = new ArrayList<Image>();
+        ArrayList<Image> images = new ArrayList<Image>();
+
         try {
-            image = ImageIO.read(file);
+            images.add(ImageIO.read(new File("Images/passenger1.png")));
+            images.add(ImageIO.read(new File("Images/passenger2.png")));
+            images.add(ImageIO.read(new File("Images/passenger3.png")));
+            images.add(ImageIO.read(new File("Images/passenger4.png")));
+            images.add(ImageIO.read(new File("Images/passenger5.png")));
+            images.add(ImageIO.read(new File("Images/passenger6.png")));
+            images.add(ImageIO.read(new File("Images/passenger7.png")));
+            images.add(ImageIO.read(new File("Images/passenger8.png")));
+            images.add(ImageIO.read(new File("Images/passenger9.png")));
+            images.add(ImageIO.read(new File("Images/passenger10.png")));
         }catch (IOException e){
             e.printStackTrace();
         }
-        passengerImage = image.getScaledInstance(90, 90, Image.SCALE_DEFAULT);
+        for(Image image: images) {
+            passengerImages.add(image.getScaledInstance(90, 90, Image.SCALE_DEFAULT));
+        }
     }
 
     public static WorldInformation getInstance() {
@@ -155,7 +175,7 @@ public class WorldInformation extends JPanel {
 
     public void drawPassengers(Passenger passenger, Graphics g)
     {
-        g.drawImage(passengerImage, (int)passenger.getX() ,
+        g.drawImage(passenger.getImage(), (int)passenger.getX() ,
                 (int)passenger.getY() + 10, null);
     }
 

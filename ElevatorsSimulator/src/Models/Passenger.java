@@ -2,6 +2,8 @@ package Models;
 
 import Logic.PassengerStrategy;
 
+import java.awt.*;
+
 public class Passenger {
     private int weight;
     private int sourceFloor;
@@ -10,6 +12,17 @@ public class Passenger {
     private double x;
     private double y;
     private PassengerStrategy strategy;
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    private Image image;
+
 
     public PassengerStrategy getStrategy() {
         return strategy;
@@ -72,6 +85,8 @@ public class Passenger {
         this.sourceFloor = sourceFloor;
         this.destinationFloor = destinationFloor;
         this.state = state;
+        this.image = WorldInformation.getInstance()
+                .getPassengerImages().get(0 + (int) (Math.random() * 10));
     }
 
     public void Leave(){
@@ -86,5 +101,6 @@ public class Passenger {
                 System.out.println("Passenger left");
             }
         });
+        leavingThread.start();
     }
 }
