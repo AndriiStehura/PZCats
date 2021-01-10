@@ -11,19 +11,23 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
     public PickingStrategy(Elevator elevator, BlockingQueue<Passenger> floorQueue) {
         super(elevator, floorQueue);
     }
-
+    private static Object isEmptyLocker = new Object();
 
     @Override
     public void Move() {
         //may be changed later
+
         while (true) {
-            if (floorQueue.isEmpty()) {
-                while (elevator.getState() != ElevatorState.Called) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+            while (true) {
+                System.out.println("Elevator waiting");
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                synchronized (isEmptyLocker) {
+                    if (!floorQueue.isEmpty())
+                        break;
                 }
             }
 
