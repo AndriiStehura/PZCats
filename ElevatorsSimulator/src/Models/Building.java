@@ -3,10 +3,12 @@ package Models;
 import Interfaces.IBuilding;
 import Interfaces.IElevator;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class Building implements IBuilding {
     private List<Elevator> elevators;
@@ -40,9 +42,18 @@ public class Building implements IBuilding {
 
     @Override
     public void updateQueue(Passenger passenger) {
-        //passengersQueue.add(passenger);
-            elevators.stream().min(Comparator.comparingInt(x -> x.getStrategy().getFloorQueue().size()
-            + x.getPassengers().size())).get().getStrategy().getFloorQueue().add(passenger);
+        Elevator minUsed = elevators.get(elevators.size() - 1);
+        for (int i = elevators.size() - 1; i >= 0 ; --i) {
+            var elevator = elevators.get(i);
+            int using = elevator.getStrategy().getFloorQueue().size() +
+                    elevator.getPassengers().size();
+            int minUsing = minUsed.getStrategy().getFloorQueue().size() +
+                    elevator.getPassengers().size();
+            if(minUsing > using){
+                minUsed = elevator;
+            }
+        }
+        minUsed.getStrategy().getFloorQueue().add(passenger);
     }
 
     public BlockingQueue<Passenger> getPassengersQueue() {

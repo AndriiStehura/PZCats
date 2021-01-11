@@ -115,7 +115,7 @@ public class Floor {
                 }
             }
 
-        synchronized (elevatorLocker) {
+        synchronized (this) {
             List<Passenger> addedPassengers = new ArrayList<>();
             for (int i = 0; i < passengerList.size(); ++i) {
                 Passenger p = passengerList.get(i);
