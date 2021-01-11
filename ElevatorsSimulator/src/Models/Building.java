@@ -12,6 +12,7 @@ public class Building implements IBuilding {
     private List<Floor> floors;
     private BlockingQueue<Passenger> passengersQueue;
     private CopyOnWriteArrayList<Passenger> leavingList;
+    private static Object updateLocker = new Object();
 
     public Building(List<Elevator> elevators, List<Floor> floors, BlockingQueue<Passenger> passengersQueue){
         this.elevators = elevators;
@@ -38,11 +39,16 @@ public class Building implements IBuilding {
 
     @Override
     public void updateQueue(Passenger passenger) {
-        passengersQueue.add(passenger);
+        //passengersQueue.add(passenger);
+        synchronized (updateLocker) {
+            elevators.stream().min((x, y) -> Integer.compare(x.getStrategy().getFloorQueue().size(),
+                    y.getStrategy().getFloorQueue().size()))
+                    .get().getStrategy().getFloorQueue().add(passenger);
+        }
     }
 
     public BlockingQueue<Passenger> getPassengersQueue() {
-        return passengersQueue;
+            return passengersQueue;
     }
 
     public void setPassengersQueue(BlockingQueue<Passenger> passengersQueue) {

@@ -17,23 +17,31 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
     public void Move() {
         //may be changed later
         System.out.println("Elevator started");
+        WorldInformation wi = WorldInformation.getInstance();
             while(true) {
                 try {
-                    while (true) {
-                        System.out.println("Elevator waiting");
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        synchronized (isEmptyLocker) {
-                            if (!floorQueue.isEmpty())
-                                break;
+                    Passenger firstPassanger;
+                    if(elevator.getPassengers().isEmpty()) {
+                        while (true) {
+                            System.out.println("Elevator waiting");
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            synchronized (isEmptyLocker) {
+                                if (!floorQueue.isEmpty()) {
+                                    firstPassanger = floorQueue.poll();
+                                    break;
+                                }
+                            }
                         }
                     }
-
-                    WorldInformation wi = WorldInformation.getInstance();
-                    Passenger firstPassanger = floorQueue.poll();
+                    else {
+                        firstPassanger = elevator.getPassengers().get(0);
+                        firstPassanger.setSourceFloor(
+                                wi.getBuilding().getFloors().indexOf(elevator.getCurrentFloor()));
+                    }
                     /*if(firstPassanger.getState() != PassengerState.Waiting) //because we can still have this passenger in
                     {                                                       //our general queue due to our strategy
                         continue;
