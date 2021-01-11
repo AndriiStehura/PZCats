@@ -21,7 +21,8 @@ public class Main {
     private static Color backgroundColor = new Color(217,208,222);
     private static Color suppColor = new Color(12,23,19);
 
-    private static void Initialize(int floorsNum, int elevatorsNum, int elevatorStrategy){
+    private static void Initialize(int floorsNum, int elevatorsNum, int elevatorStrategy,
+                                   int elevatorMaxWeight){
         int xMargin = 200, yMargin = 50, floorHeight = 100, elevatorWidth=50,
                 passengerWidth = 25, passengerMargin = 10;
 
@@ -41,7 +42,7 @@ public class Main {
         BlockingQueue<Passenger> passengersQueue = new LinkedBlockingQueue<>();
         String strategyStr = "";
         for (int i = 0; i < worldInformation.getElevatorsNum(); ++i){
-            Elevator e = new Elevator(200, floors.get(0));
+            Elevator e = new Elevator(elevatorMaxWeight, floors.get(0));
             e.setX((worldInformation.get_xMargin() + worldInformation.getElevatorWidth()) * (i + 1));
             e.setY(worldInformation.getWorldHeight() - worldInformation.getFloorHeight());
             ElevatorStrategy strategy;
@@ -72,7 +73,7 @@ public class Main {
         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mainFrame.setAlwaysOnTop(true);
         mainFrame.setResizable(false);
-        mainFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight() + 43);
+        mainFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight() + 40);
         mainFrame.add(panel);
         mainFrame.setVisible(true);
         mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2,
@@ -142,6 +143,14 @@ public class Main {
         floors.setLocation(100, 150);
         startFrame.add(floors);
 
+        JLabel weight = new JLabel();
+        weight = new JLabel("Max elevator weight: ");
+        weight.setFont(defaultFont20);
+        weight.setForeground(textColor);
+        weight.setSize(250, 25);
+        weight.setLocation(300, 150);
+        startFrame.add(weight);
+
         SpinnerModel smFloors = new SpinnerNumberModel(2, 2, 5, 1);
         JSpinner floorsCount = new JSpinner(smFloors);
         floorsCount.setLocation(200, 145);
@@ -149,12 +158,19 @@ public class Main {
         floorsCount.setFont(defaultFont14);
         startFrame.add(floorsCount);
 
+        SpinnerModel sw = new SpinnerNumberModel(200, 150, 500, 50);
+        JSpinner weightCount = new JSpinner(sw);
+        weightCount.setLocation(500, 150);
+        weightCount.setSize(50, 30);
+        weightCount.setFont(defaultFont14);
+        startFrame.add(weightCount);
+
         JButton createWorld = new CustomButton("Create world", suppColor, textColor);
         createWorld.setBounds(300, 200, 180, 25);
         createWorld.setFocusPainted(false);
         createWorld.addActionListener((e) -> {
             Initialize((Integer)floorsCount.getValue(), (Integer)elevatorsCount.getValue(),
-                    jComboBox.getSelectedIndex());
+                    jComboBox.getSelectedIndex(), (Integer)weightCount.getValue());
             startFrame.dispose();
         });
 

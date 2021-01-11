@@ -104,6 +104,11 @@ public class Passenger {
             }
         });
         leavingThread.start();
+        try {
+            leavingThread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void Enter(Elevator elevator){
