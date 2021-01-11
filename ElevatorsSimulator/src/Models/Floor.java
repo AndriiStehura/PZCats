@@ -121,24 +121,12 @@ public class Floor {
                 elevator.getPassengers().add(p);
                 addedPassengers.add(p);
                 p.setState(PassengerState.Entering);
-                --i;
             }
         }
 
-        Thread enterThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (var p: addedPassengers) {
-                    p.Enter(elevator);
-                    passengerList.remove(p);
-                }
-            }
-        });
-        enterThread.start();
-        try {
-            enterThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (var p: addedPassengers) {
+            p.Enter(elevator);
+            passengerList.remove(p);
         }
         //RearrangePassengers();
     }

@@ -55,6 +55,13 @@ public class Building implements IBuilding {
             public void run() {
                 PassengerFactory factory = new PassengerFactory(floors.size());
                 while (true){
+                    if(passengersQueue.size() > 10) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     Passenger passenger = factory.getPassenger();
                     Floor passangersFloor = floors.get(passenger.getSourceFloor());
                     passenger.setY(passangersFloor.getY());
