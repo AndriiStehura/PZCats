@@ -51,6 +51,7 @@ public class Main {
 
             strategyStr = strategy.getClass().getName();
             e.setStrategy(strategy);
+            e.setDoorWidth(elevatorWidth / 2);
             elevators.add(e);
         }
 

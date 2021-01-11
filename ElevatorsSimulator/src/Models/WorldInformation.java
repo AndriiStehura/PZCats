@@ -164,7 +164,7 @@ public class WorldInformation extends JPanel {
         }
 
         for (Elevator elevator: building.getElevators()) {
-            elevator.setDoorWidth(elevatorWidth/2);
+            //elevator.setDoorWidth(elevatorWidth/2);
             drawElevators(elevator, g);
         }
 
