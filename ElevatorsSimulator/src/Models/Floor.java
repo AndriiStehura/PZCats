@@ -146,9 +146,15 @@ public class Floor {
     public void RearrangePassengers(){
         List<Passenger> backUp = new ArrayList<>(passengerList);
         passengerList.clear();
-        for (var p: backUp) {
-            p.getStrategy().Move(getNextPassengerPosition());
-            passengerList.add(p);
-        }
+        Thread rearrangeThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (var p: backUp) {
+                    p.getStrategy().Move(getNextPassengerPosition());
+                    passengerList.add(p);
+                }
+            }
+        });
+        rearrangeThread.start();
     }
 }

@@ -70,7 +70,7 @@ public class Main {
         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mainFrame.setAlwaysOnTop(true);
         mainFrame.setResizable(false);
-        mainFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight() + 43);
+        mainFrame.setSize((int)worldInformation.getWorldWidth(),(int) worldInformation.getWorldHeight() + 40);
         mainFrame.add(panel);
         mainFrame.setVisible(true);
         mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2,
