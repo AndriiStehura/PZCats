@@ -17,6 +17,7 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
     public void Move() {
         //may be changed later
         System.out.println("Elevator started");
+        WorldInformation wi = WorldInformation.getInstance();
             while(true) {
                 try {
                     Passenger firstPassanger;
@@ -38,9 +39,9 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     }
                     else {
                         firstPassanger = elevator.getPassengers().get(0);
+                        firstPassanger.setSourceFloor(
+                                wi.getBuilding().getFloors().indexOf(elevator.getCurrentFloor()));
                     }
-
-                    WorldInformation wi = WorldInformation.getInstance();
                     /*if(firstPassanger.getState() != PassengerState.Waiting) //because we can still have this passenger in
                     {                                                       //our general queue due to our strategy
                         continue;

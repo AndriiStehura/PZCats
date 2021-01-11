@@ -45,9 +45,9 @@ public class Main {
             e.setY(worldInformation.getWorldHeight() - worldInformation.getFloorHeight());
             ElevatorStrategy strategy;
             if(elevatorStrategy == 0)
-                strategy = new IgnoreStrategy(e, passengersQueue);
+                strategy = new IgnoreStrategy(e, new LinkedBlockingQueue<>());
             else
-                strategy = new PickingStrategy(e, passengersQueue);
+                strategy = new PickingStrategy(e, new LinkedBlockingQueue<>());
 
             strategyStr = strategy.getClass().getName();
             e.setStrategy(strategy);
