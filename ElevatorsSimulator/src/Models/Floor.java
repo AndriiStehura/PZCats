@@ -109,18 +109,36 @@ public class Floor {
                 p.setState(PassengerState.Leaving);
                 elevator.getPassengers().remove(p);
                 building.getLeavingList().add(p);
+                p.Leave(elevator);
                 --i;
             }
         }
 
+        List<Passenger> addedPassengers = new ArrayList<>();
         for (int i = 0; i < passengerList.size(); ++i) {
             Passenger p = passengerList.get(i);
             if(elevator.canEnter(p.getWeight())){
-                p.setState(PassengerState.Moving);
                 elevator.getPassengers().add(p);
-                passengerList.remove(p);
+                addedPassengers.add(p);
+                p.setState(PassengerState.Entering);
                 --i;
             }
+        }
+
+        Thread enterThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (var p: addedPassengers) {
+                    p.Enter(elevator);
+                    passengerList.remove(p);
+                }
+            }
+        });
+        enterThread.start();
+        try {
+            enterThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         //RearrangePassengers();
     }

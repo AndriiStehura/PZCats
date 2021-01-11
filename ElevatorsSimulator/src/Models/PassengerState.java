@@ -5,5 +5,6 @@ public enum PassengerState {
     Waiting,
     Moving,
     Leaving,
-    Left
+    Left,
+    Entering
 }

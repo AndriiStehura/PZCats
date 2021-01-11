@@ -105,4 +105,10 @@ public class Passenger {
         });
         leavingThread.start();
     }
+
+    public void Enter(Elevator elevator){
+        strategy.Move(elevator.getX());
+        state = PassengerState.Moving;
+        System.out.println("Passenger Entered");
+    }
 }
