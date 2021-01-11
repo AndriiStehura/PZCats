@@ -134,6 +134,8 @@ public class WorldInformation extends JPanel {
         for(Image image: images) {
             passengerImages.add(image.getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         }
+
+        setDoubleBuffered(true);
     }
 
     public static WorldInformation getInstance() {
@@ -164,7 +166,7 @@ public class WorldInformation extends JPanel {
         }
 
         for (Elevator elevator: building.getElevators()) {
-            elevator.setDoorWidth(elevatorWidth/2);
+            //elevator.setDoorWidth(elevatorWidth/2);
             drawElevators(elevator, g);
         }
 

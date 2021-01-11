@@ -13,8 +13,6 @@ public class PassengerStrategy {
     }
 
     public void Move(double dest){
-        Building building = WorldInformation.getInstance().getBuilding();
-
         System.out.println("Passenger started going");
         double step = 0.0000005;
         while (Math.abs(passenger.getX() - dest) > step){
@@ -26,7 +24,6 @@ public class PassengerStrategy {
 
         passenger.setState(PassengerState.Waiting);
         System.out.println("Passenger stopped");
-        building.updateQueue(passenger);
     }
 
     public void MoveOut(double dest){
