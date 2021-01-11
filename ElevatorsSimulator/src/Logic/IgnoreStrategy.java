@@ -19,21 +19,28 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
         System.out.println("Elevator started");
             while(true) {
                 try {
-                    while (true) {
-                        System.out.println("Elevator waiting");
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    Passenger firstPassanger;
+                    if(elevator.getPassengers().isEmpty()) {
+                        while (true) {
+                            System.out.println("Elevator waiting");
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            synchronized (isEmptyLocker) {
+                                if (!floorQueue.isEmpty()) {
+                                    firstPassanger = floorQueue.poll();
+                                    break;
+                                }
+                            }
                         }
-                        synchronized (isEmptyLocker) {
-                            if (!floorQueue.isEmpty())
-                                break;
-                        }
+                    }
+                    else {
+                        firstPassanger = elevator.getPassengers().get(0);
                     }
 
                     WorldInformation wi = WorldInformation.getInstance();
-                    Passenger firstPassanger = floorQueue.poll();
                     /*if(firstPassanger.getState() != PassengerState.Waiting) //because we can still have this passenger in
                     {                                                       //our general queue due to our strategy
                         continue;

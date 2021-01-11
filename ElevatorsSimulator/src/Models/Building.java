@@ -42,7 +42,7 @@ public class Building implements IBuilding {
     }
 
     public BlockingQueue<Passenger> getPassengersQueue() {
-        return passengersQueue;
+            return passengersQueue;
     }
 
     public void setPassengersQueue(BlockingQueue<Passenger> passengersQueue) {
