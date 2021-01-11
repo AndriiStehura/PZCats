@@ -157,7 +157,7 @@ public class Main {
         floorsCount.setFont(defaultFont14);
         startFrame.add(floorsCount);
 
-        SpinnerModel sw = new SpinnerNumberModel(200, 100, 500, 50);
+        SpinnerModel sw = new SpinnerNumberModel(200, 150, 500, 50);
         JSpinner weightCount = new JSpinner(sw);
         weightCount.setLocation(500, 150);
         weightCount.setSize(50, 30);
