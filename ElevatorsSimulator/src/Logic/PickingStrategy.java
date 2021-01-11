@@ -3,7 +3,8 @@ package Logic;
 import Interfaces.ElevatorStrategy;
 import Models.*;
 
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.concurrent.BlockingQueue;
 import java.util.function.Predicate;
 
@@ -20,7 +21,8 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
         WorldInformation wi = WorldInformation.getInstance();
         boolean isCalled = true;
         double step = 0.0000005;
-        Predicate<Floor> predicate = (Floor x) -> elevator.getY() - x.getHeight() > step;
+        var floors = new ArrayList<>(wi.getBuilding().getFloors());
+        Predicate<Floor> predicate = (Floor x) -> Math.abs(elevator.getY() - x.getY()) > step;
         while (true) {
             Passenger firstPassanger = null;
             if (floorQueue.isEmpty()) {
@@ -44,39 +46,30 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
                 isCalled = false;
             }
 
-            var floorsStream = wi.getBuilding().getFloors().parallelStream();
             if(isCalled) {
-                Floor firstCalledFloor = wi.getBuilding().getFloors().get(firstPassanger.getSourceFloor());
+                Floor firstCalledFloor = floors.get(firstPassanger.getSourceFloor());
                 while (predicate.test(firstCalledFloor)) {
                     if (elevator.getY() < firstCalledFloor.getHeight()) {
                         elevator.setY(elevator.getY() + step);
                     } else {
                         elevator.setY(elevator.getY() - step);
                     }
-
-                    if (floorsStream.anyMatch(x -> !predicate.test(x))) {
-                        elevator.Stop(firstCalledFloor);
-                    }
                 }
+
+                elevator.Stop(firstCalledFloor);
+                if(!elevator.getPassengers().contains(firstPassanger))
+                    continue;
             }
 
-            Floor destinationFloor = wi.getBuilding().getFloors().get(firstPassanger.getDestinationFloor());
+            Floor destinationFloor = floors.get(firstPassanger.getDestinationFloor());
             while (predicate.test(destinationFloor)) {
-                if (elevator.getY() < destinationFloor.getHeight()) {
-                    elevator.setY(elevator.getY() + step);
-                } else {
-                    elevator.setY(elevator.getY() - step);
-                }
-
-                if (floorsStream.anyMatch(x -> !predicate.test(x))) {
-                    var currentFloor = floorsStream
-                            .filter(x -> !predicate.test(x))
-                            .findFirst()
-                            .get();
-                    elevator.Stop(currentFloor);
-                }
+                    if (elevator.getY() < destinationFloor.getHeight()) {
+                        elevator.setY(elevator.getY() + step);
+                    } else {
+                        elevator.setY(elevator.getY() - step);
+                    }
             }
-            floorsStream.close();
+            elevator.Stop(destinationFloor);
         }
     }
 }

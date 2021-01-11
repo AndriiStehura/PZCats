@@ -59,6 +59,9 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                         System.out.println("Elevator stopped on " + firstPassanger.getSourceFloor() + " floor");
                         elevator.setCurrentFloor(firstCalledFloor);
                         elevator.Stop(firstCalledFloor);
+
+                        if(!elevator.getPassengers().contains(firstPassanger))
+                            continue;
                     }
 
                     //deliver

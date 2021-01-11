@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
@@ -28,7 +29,7 @@ public class Main {
         worldInformation.Initialize(floorsNum, elevatorsNum, xMargin,
                 yMargin, floorHeight, elevatorWidth, passengerWidth, passengerMargin);
 
-        List<Floor> floors = new ArrayList<>();
+        List<Floor> floors = new CopyOnWriteArrayList<>();
         for (int i = 0; i < worldInformation.getFloorsNum(); ++i){
             Floor f = new Floor();
             f.setY(worldInformation.getWorldHeight() - (i + 1) * worldInformation.getFloorHeight()
