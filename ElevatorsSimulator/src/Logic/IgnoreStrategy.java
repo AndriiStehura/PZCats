@@ -81,6 +81,8 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
 
                     elevator.setCurrentFloor(destinationFloor);
                     elevator.Stop(destinationFloor);
+                    if(elevator.getPassengers().contains(firstPassanger))
+                        elevator.getPassengers().remove(firstPassanger);
                 } catch (NullPointerException e) {
                     continue;
                 }

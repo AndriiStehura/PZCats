@@ -3,6 +3,7 @@ package Models;
 import Interfaces.IBuilding;
 import Interfaces.IElevator;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,7 +13,7 @@ public class Building implements IBuilding {
     private List<Floor> floors;
     private BlockingQueue<Passenger> passengersQueue;
     private CopyOnWriteArrayList<Passenger> leavingList;
-    private static Object updateLocker = new Object();
+    private Object updateLocker = new Object();
 
     public Building(List<Elevator> elevators, List<Floor> floors, BlockingQueue<Passenger> passengersQueue){
         this.elevators = elevators;
@@ -40,11 +41,8 @@ public class Building implements IBuilding {
     @Override
     public void updateQueue(Passenger passenger) {
         //passengersQueue.add(passenger);
-        synchronized (updateLocker) {
-            elevators.stream().min((x, y) -> Integer.compare(x.getStrategy().getFloorQueue().size(),
-                    y.getStrategy().getFloorQueue().size()))
-                    .get().getStrategy().getFloorQueue().add(passenger);
-        }
+            elevators.stream().min(Comparator.comparingInt(x -> x.getStrategy().getFloorQueue().size()
+            + x.getPassengers().size())).get().getStrategy().getFloorQueue().add(passenger);
     }
 
     public BlockingQueue<Passenger> getPassengersQueue() {
@@ -77,6 +75,9 @@ public class Building implements IBuilding {
                         @Override
                         public void run() {
                             passenger.getStrategy().Move(passangersFloor.getNextPassengerPosition());
+                            synchronized (updateLocker) {
+                                updateQueue(passenger);
+                            }
                         }
                     });
                     passangerThread.start();

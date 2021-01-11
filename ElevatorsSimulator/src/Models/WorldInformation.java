@@ -134,6 +134,8 @@ public class WorldInformation extends JPanel {
         for(Image image: images) {
             passengerImages.add(image.getScaledInstance(90, 90, Image.SCALE_DEFAULT));
         }
+
+        setDoubleBuffered(true);
     }
 
     public static WorldInformation getInstance() {
