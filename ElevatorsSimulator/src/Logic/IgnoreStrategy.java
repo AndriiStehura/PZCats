@@ -17,27 +17,35 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
     public void Move() {
         //may be changed later
         System.out.println("Elevator started");
+        WorldInformation wi = WorldInformation.getInstance();
             while(true) {
                 try {
-                    while (true) {
-                        System.out.println("Elevator waiting");
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        synchronized (isEmptyLocker) {
-                            if (!floorQueue.isEmpty())
-                                break;
+                    Passenger firstPassanger;
+                    if(elevator.getPassengers().isEmpty()) {
+                        while (true) {
+                            System.out.println("Elevator waiting");
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            synchronized (isEmptyLocker) {
+                                if (!floorQueue.isEmpty()) {
+                                    firstPassanger = floorQueue.poll();
+                                    break;
+                                }
+                            }
                         }
                     }
-
-                    WorldInformation wi = WorldInformation.getInstance();
-                    Passenger firstPassanger = floorQueue.poll();
-                    if(firstPassanger.getState() != PassengerState.Waiting) //because we can still have this passenger in
+                    else {
+                        firstPassanger = elevator.getPassengers().get(0);
+                        firstPassanger.setSourceFloor(
+                                wi.getBuilding().getFloors().indexOf(elevator.getCurrentFloor()));
+                    }
+                    /*if(firstPassanger.getState() != PassengerState.Waiting) //because we can still have this passenger in
                     {                                                       //our general queue due to our strategy
                         continue;
-                    }
+                    }*/
 
                     Floor firstCalledFloor = wi.getBuilding().getFloors().get(firstPassanger.getSourceFloor());
                     double step = 0.0000005;
@@ -53,14 +61,9 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
 
                     System.out.println("Elevator stopped on " + firstPassanger.getSourceFloor() + " floor");
                     elevator.setCurrentFloor(firstCalledFloor);
-                    firstCalledFloor.ElevatorSourceFloorArrivedIgnoreStrategy(elevator, firstPassanger);
+                    //firstCalledFloor.ElevatorSourceFloorArrivedIgnoreStrategy(elevator, firstPassanger);
 
-                    //elevator.Stop(firstCalledFloor);
-
-                    elevator.OpenDoors();
-                    firstPassanger.getStrategy().Move(this.elevator.getX());
-                    firstPassanger.setState(PassengerState.Moving);
-                    elevator.CloseDoors();
+                    elevator.Stop(firstCalledFloor);
 
                     //deliver
                     Floor destinationFloor = wi.getBuilding().getFloors().get(firstPassanger.getDestinationFloor());
@@ -74,13 +77,12 @@ public class IgnoreStrategy extends BaseStrategy implements ElevatorStrategy {
                     }
 
                     System.out.println("Elevator stopped on " + firstPassanger.getDestinationFloor() + " floor");
-                    destinationFloor.ElevatorDestinationFloorArrivedIgnoreStrategy(elevator);
+                    //destinationFloor.ElevatorDestinationFloorArrivedIgnoreStrategy(elevator);
 
                     elevator.setCurrentFloor(destinationFloor);
-                    //elevator.Stop(destinationFloor);
-                    firstPassanger.Leave(elevator);
-                    elevator.OpenDoors();
-                    elevator.CloseDoors();
+                    elevator.Stop(destinationFloor);
+                    if(elevator.getPassengers().contains(firstPassanger))
+                        elevator.getPassengers().remove(firstPassanger);
                 } catch (NullPointerException e) {
                     continue;
                 }

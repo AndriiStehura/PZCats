@@ -11,6 +11,7 @@ public class Floor {
     //public Building buildingReference;
     private double floorHeight;
     private double yCoordinate;
+    private static Object elevatorLocker = new Object();
 
     public Floor(){
         passengerList = new CopyOnWriteArrayList<>();
@@ -103,23 +104,31 @@ public class Floor {
     public void ElevatorArrived(Elevator elevator){
         Building building = WorldInformation.getInstance().getBuilding();
         int floorIndex = building.getFloors().indexOf(this);
-        for (int i = 0; i < elevator.getPassengers().size(); ++i){
-            Passenger p = elevator.getPassengers().get(i);
-            if(p.getDestinationFloor() == floorIndex){
-                p.setState(PassengerState.Leaving);
-                elevator.getPassengers().remove(p);
-                building.getLeavingList().add(p);
-                --i;
+            for (int i = 0; i < elevator.getPassengers().size(); ++i) {
+                Passenger p = elevator.getPassengers().get(i);
+                if (p.getDestinationFloor() == floorIndex) {
+                    p.setState(PassengerState.Leaving);
+                    elevator.getPassengers().remove(p);
+                    building.getLeavingList().add(p);
+                    p.Leave(elevator);
+                    --i;
+                }
             }
-        }
 
-        for (int i = 0; i < passengerList.size(); ++i) {
-            Passenger p = passengerList.get(i);
-            if(elevator.canEnter(p.getWeight())){
-                p.setState(PassengerState.Moving);
-                elevator.getPassengers().add(p);
+        synchronized (elevatorLocker) {
+            List<Passenger> addedPassengers = new ArrayList<>();
+            for (int i = 0; i < passengerList.size(); ++i) {
+                Passenger p = passengerList.get(i);
+                if (elevator.canEnter(p.getWeight())) {
+                    elevator.getPassengers().add(p);
+                    addedPassengers.add(p);
+                    p.setState(PassengerState.Entering);
+                }
+            }
+
+            for (var p : addedPassengers) {
+                p.Enter(elevator);
                 passengerList.remove(p);
-                --i;
             }
         }
         //RearrangePassengers();

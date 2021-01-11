@@ -105,4 +105,11 @@ public class Passenger {
         });
         leavingThread.start();
     }
+
+    public void Enter(Elevator elevator){
+        System.out.println("Passenger" + hashCode() +" goes to elevator " + elevator.hashCode());
+        strategy.Move(elevator.getX());
+        state = PassengerState.Moving;
+        System.out.println("Passenger" + hashCode() + "entered to elevator " + elevator.hashCode());
+    }
 }

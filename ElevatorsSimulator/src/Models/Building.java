@@ -3,6 +3,7 @@ package Models;
 import Interfaces.IBuilding;
 import Interfaces.IElevator;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,6 +13,7 @@ public class Building implements IBuilding {
     private List<Floor> floors;
     private BlockingQueue<Passenger> passengersQueue;
     private CopyOnWriteArrayList<Passenger> leavingList;
+    private Object updateLocker = new Object();
 
     public Building(List<Elevator> elevators, List<Floor> floors, BlockingQueue<Passenger> passengersQueue){
         this.elevators = elevators;
@@ -38,11 +40,13 @@ public class Building implements IBuilding {
 
     @Override
     public void updateQueue(Passenger passenger) {
-        passengersQueue.add(passenger);
+        //passengersQueue.add(passenger);
+            elevators.stream().min(Comparator.comparingInt(x -> x.getStrategy().getFloorQueue().size()
+            + x.getPassengers().size())).get().getStrategy().getFloorQueue().add(passenger);
     }
 
     public BlockingQueue<Passenger> getPassengersQueue() {
-        return passengersQueue;
+            return passengersQueue;
     }
 
     public void setPassengersQueue(BlockingQueue<Passenger> passengersQueue) {
@@ -55,6 +59,13 @@ public class Building implements IBuilding {
             public void run() {
                 PassengerFactory factory = new PassengerFactory(floors.size());
                 while (true){
+                    if(passengersQueue.size() > 10) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     Passenger passenger = factory.getPassenger();
                     Floor passangersFloor = floors.get(passenger.getSourceFloor());
                     passenger.setY(passangersFloor.getY());
@@ -64,11 +75,14 @@ public class Building implements IBuilding {
                         @Override
                         public void run() {
                             passenger.getStrategy().Move(passangersFloor.getNextPassengerPosition());
+                            synchronized (updateLocker) {
+                                updateQueue(passenger);
+                            }
                         }
                     });
                     passangerThread.start();
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
