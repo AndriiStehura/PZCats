@@ -35,6 +35,7 @@ public class Main {
         BlockingQueue<Passenger> passengersQueue = new LinkedBlockingQueue<>();
         String strategyStr = "";
         for (int i = 0; i < worldInformation.getElevatorsNum(); ++i){
+            
             Elevator e = new Elevator(200, floors.get(0));
             e.setX((worldInformation.get_xMargin() + worldInformation.getElevatorWidth()) * (i + 1));
             e.setY(worldInformation.getWorldHeight() - worldInformation.getFloorHeight());
