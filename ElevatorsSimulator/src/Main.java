@@ -51,7 +51,6 @@ public class Main {
             else
                 strategy = new PickingStrategy(e, new LinkedBlockingQueue<>());
 
-            strategyStr = strategy.getClass().getName();
             e.setStrategy(strategy);
             e.setDoorWidth(elevatorWidth / 2);
             elevators.add(e);
