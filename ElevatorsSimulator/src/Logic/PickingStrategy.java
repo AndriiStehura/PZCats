@@ -4,9 +4,13 @@ import Interfaces.ElevatorStrategy;
 import Models.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
     private static Object isEmptyLocker = new Object();
@@ -22,13 +26,12 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
         boolean isCalled = true;
         double step = 0.0000005;
         var floors = new ArrayList<>(wi.getBuilding().getFloors());
-        Predicate<Floor> predicate = (Floor x) -> Math.abs(elevator.getY() - x.getY()) > step;
         while (true) {
             Passenger firstPassanger = null;
-            if (floorQueue.isEmpty()) {
-                while (elevator.getState() != ElevatorState.Called) {
+            if(elevator.getPassengers().isEmpty()) {
+                while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -42,14 +45,16 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
                 }
             }
             else {
+                if(elevator.getPassengers().isEmpty())
+                    continue;
                 firstPassanger = elevator.getPassengers().get(0);
                 isCalled = false;
             }
 
             if(isCalled) {
                 Floor firstCalledFloor = floors.get(firstPassanger.getSourceFloor());
-                while (predicate.test(firstCalledFloor)) {
-                    if (elevator.getY() < firstCalledFloor.getHeight()) {
+                while (Math.abs(elevator.getY() - firstCalledFloor.getY()) > step) {
+                    if (elevator.getY() < firstCalledFloor.getY()) {
                         elevator.setY(elevator.getY() + step);
                     } else {
                         elevator.setY(elevator.getY() - step);
@@ -62,11 +67,19 @@ public class PickingStrategy extends BaseStrategy implements ElevatorStrategy {
             }
 
             Floor destinationFloor = floors.get(firstPassanger.getDestinationFloor());
-            while (predicate.test(destinationFloor)) {
-                    if (elevator.getY() < destinationFloor.getHeight()) {
+            var interFloors = floors.stream()
+                    .filter(x -> !x.getPassengerList().isEmpty())
+                    .collect(Collectors.toList());
+
+            while (Math.abs(elevator.getY() - destinationFloor.getY()) > step) {
+                    if (elevator.getY() < destinationFloor.getY()) {
                         elevator.setY(elevator.getY() + step);
                     } else {
                         elevator.setY(elevator.getY() - step);
+                    }
+                    for (var x: interFloors) {
+                        if(Math.abs(elevator.getY() - x.getY()) <= step)
+                            elevator.Stop(x);
                     }
             }
             elevator.Stop(destinationFloor);
